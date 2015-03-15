@@ -70,7 +70,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   if (!_gameOver) {
     [_hero.physicsBody applyImpulse:ccp(0, -400.f)];
-    [_hero.physicsBody applyAngularImpulse:10000.f];
+    //[_hero.physicsBody applyAngularImpulse:10000.f];
     _sinceTouch = 0.f;
   }
 }
@@ -155,16 +155,16 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
   _sinceTouch += delta;
 
-  _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
+//  _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
+//
+//  if (_hero.physicsBody.allowsRotation) {
+//    float angularVelocity = clampf(_hero.physicsBody.angularVelocity, -2.f, 1.f);
+//    _hero.physicsBody.angularVelocity = angularVelocity;
+//  }
 
-  if (_hero.physicsBody.allowsRotation) {
-    float angularVelocity = clampf(_hero.physicsBody.angularVelocity, -2.f, 1.f);
-    _hero.physicsBody.angularVelocity = angularVelocity;
-  }
-
-  if ((_sinceTouch > 0.5f)) {
-    [_hero.physicsBody applyAngularImpulse:-40000.f*delta];
-  }
+//  if ((_sinceTouch > 0.5f)) {
+//    [_hero.physicsBody applyAngularImpulse:-40000.f*delta];
+//  }
 
   _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed *delta), _physicsNode.position.y);
 
