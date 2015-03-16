@@ -27,6 +27,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSArray *_grounds0, *_grounds1, *_grounds2;
 
     NSTimeInterval _sinceTouch;
+    
 
     NSMutableArray *_obstacles;
 
@@ -45,6 +46,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSString *atGround;
     NSString *atUpper;
     NSString *atLower;
+    
+    CGPoint downGravity, upGravity;
 }
 
 
@@ -65,7 +68,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     }
     // upper limit
     for(CCNode *ground in _grounds1){
-        ground.physicsBody.collisionType = @"upper";
+        ground.physicsBody.collisionType = @"roof";
         ground.zOrder = DrawingOrderGround;
     }
     // middle sensor
@@ -79,6 +82,10 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     atGround = @"ground";
     atUpper = @"upper";
     atLower = @"lower";
+    
+    downGravity = ccp(0.0, -300.0);
+    upGravity = ccp(0.0, 300);
+
 
 
     // set this class as delegate
@@ -99,22 +106,34 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   if (!_gameOver) {
-      if (_physicsNode.gravity.y<0) {
+      if ([charPosition isEqualToString: atGround]) {
           // if on the ground, jump and reverse gravity
           // reset ground collision type to allow event handling
-          [_hero.physicsBody applyImpulse:ccp(0, 300.f)];
-          CGPoint upGravity = ccp(0.0, 700);
-          _physicsNode.gravity=upGravity;
-
+          // set char position to lower
+          [_hero.physicsBody applyImpulse:ccp(0, 50.f)];
+          _physicsNode.gravity = upGravity;
           for (CCNode *ground in _grounds0) {
               // set collision type
               ground.physicsBody.collisionType = @"level";
           }
-          
-      }else{
-          // if not on the ground, apply downward force
-          [_hero.physicsBody applyImpulse:ccp(0, -500.f)];
-
+          charPosition = atLower;
+      }else if([charPosition isEqualToString:atLower]){
+          // if at lower space, apply downward force
+          [_hero.physicsBody applyImpulse:ccp(0, -300.f)];
+      }else if([charPosition isEqualToString:atUpper]){
+          // if at upper space, apply upward force
+          [_hero.physicsBody applyImpulse:ccp(0, 300.f)];
+      }else if([charPosition isEqualToString:atRoof]){
+          // if at roof, jump down and reverse gravity
+          // reset roof collision type to allow event handling
+          // set char position to upper
+          [_hero.physicsBody applyImpulse:ccp(0, -50.f)];
+          _physicsNode.gravity = downGravity;
+          for (CCNode *ground in _grounds1) {
+              // set collision type
+              ground.physicsBody.collisionType = @"roof";
+          }
+          charPosition = atUpper;
       }
       
 
@@ -131,7 +150,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero level:(CCNode *)level {
 
     
-    CGPoint downGravity = ccp(0.0, -700.0);
+
     _physicsNode.gravity= downGravity;
     
     // set char position to ground
@@ -146,8 +165,45 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
   return YES;
 }
 
-- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero middle:(CCNode *)middle{
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero roof:(CCNode *)roof {
+    
+    
+    
+    _physicsNode.gravity= upGravity;
+    
+    // set char position to roof
+    charPosition = atRoof;
+    
+    
+    for (CCNode *ground in _grounds1) {
+        // set collision type
+        ground.physicsBody.collisionType = @"noMatch";
+    }
+    
+    return YES;
+}
+
+
+- (BOOL)ccPhysicsCollisionSeparate:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero middle:(CCNode *)middle{
     NSLog(@"ok, detected");
+    NSLog(@"%f",hero.position.y);
+    if(hero.position.y > 284){
+        // at upper space
+        // turn gravity downward, set char position at upper
+        _physicsNode.gravity = downGravity;
+        charPosition = atUpper;
+//        _hero.physicsBody.velocity = ccp(0, 150.f);
+
+    }else{
+        // at lower space
+        // turn gravity upward, set char position at lower
+        _physicsNode.gravity = upGravity;
+        charPosition = atLower;
+//        _hero.physicsBody.velocity = ccp(0, -150.f);
+
+        
+    }
+    
     
     return YES;
 }
@@ -210,7 +266,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void)update:(CCTime)delta {
   // clamp velocity
-  float yVelocity = clampf(_hero.physicsBody.velocity.y, -1 * MAXFLOAT, 200.f);
+  float yVelocity = clampf(_hero.physicsBody.velocity.y, -100.f, 100.f);
   _hero.physicsBody.velocity = ccp(0, yVelocity);
   _hero.position = ccp(_hero.position.x + delta * _scrollSpeed, _hero.position.y);
 
