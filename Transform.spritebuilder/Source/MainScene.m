@@ -19,45 +19,73 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 };
 
 @implementation MainScene {
-  CCSprite *_hero;
-  CCPhysicsNode *_physicsNode;
+    CCSprite *_hero;
+    CCPhysicsNode *_physicsNode;
 
-  CCNode *_ground1;
-  CCNode *_ground2;
-  NSArray *_grounds;
+    CCNode *_ground1, *_ground2, *_ground3, *_ground4,*_ground5, *_ground6;
 
-  NSTimeInterval _sinceTouch;
+    NSArray *_grounds0, *_grounds1, *_grounds2;
 
-  NSMutableArray *_obstacles;
+    NSTimeInterval _sinceTouch;
 
-  CCButton *_restartButton;
+    NSMutableArray *_obstacles;
 
-  BOOL _gameOver;
+    CCButton *_restartButton;
 
-  CGFloat _scrollSpeed;
+    BOOL _gameOver;
 
-  NSInteger _points;
-  CCLabelTTF *_scoreLabel;
+    CGFloat _scrollSpeed;
+
+    NSInteger _points;
+    CCLabelTTF *_scoreLabel;
+    
+    NSString *charPosition;
+    
+    NSString *atRoof;
+    NSString *atGround;
+    NSString *atUpper;
+    NSString *atLower;
 }
+
 
 
 - (void)didLoadFromCCB {
   _scrollSpeed = 80.f;
   self.userInteractionEnabled = YES;
 
-  _grounds = @[_ground1, _ground2];
+    _grounds0 = @[_ground1, _ground2];
+    _grounds1 = @[_ground3, _ground4];
+    _grounds2 = @[_ground5, _ground6];
 
-  for (CCNode *ground in _grounds) {
-    // set collision txpe
-    ground.physicsBody.collisionType = @"level";
-    ground.zOrder = DrawingOrderGround;
-  }
+    // lower limit
+    for (CCNode *ground in _grounds0) {
+        // set collision type
+        ground.physicsBody.collisionType = @"level";
+        ground.zOrder = DrawingOrderGround;
+    }
+    // upper limit
+    for(CCNode *ground in _grounds1){
+        ground.physicsBody.collisionType = @"upper";
+        ground.zOrder = DrawingOrderGround;
+    }
+    // middle sensor
+    for(CCNode *ground in _grounds2){
+        ground.physicsBody.collisionType = @"middle";
+        ground.physicsBody.sensor = TRUE;
+        ground.zOrder = DrawingOrderGround;
+    }
+    
+    atRoof = @"roof";
+    atGround = @"ground";
+    atUpper = @"upper";
+    atLower = @"lower";
 
-  // set this class as delegate
-  _physicsNode.collisionDelegate = self;
-  // set collision txpe
-  _hero.physicsBody.collisionType = @"hero";
-  _hero.zOrder = DrawingOrdeHero;
+
+    // set this class as delegate
+    _physicsNode.collisionDelegate = self;
+    // set collision type
+    _hero.physicsBody.collisionType = @"hero";
+    _hero.zOrder = DrawingOrdeHero;
 
   _obstacles = [NSMutableArray array];
 //  [self spawnNewObstacle];
@@ -65,11 +93,34 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //  [self spawnNewObstacle];
 }
 
+
+
 #pragma mark - Touch Handling
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   if (!_gameOver) {
-    [_hero.physicsBody applyImpulse:ccp(0, -400.f)];
+      if (_physicsNode.gravity.y<0) {
+          // if on the ground, jump and reverse gravity
+          // reset ground collision type to allow event handling
+          [_hero.physicsBody applyImpulse:ccp(0, 300.f)];
+          CGPoint upGravity = ccp(0.0, 700);
+          _physicsNode.gravity=upGravity;
+
+          for (CCNode *ground in _grounds0) {
+              // set collision type
+              ground.physicsBody.collisionType = @"level";
+          }
+          
+      }else{
+          // if not on the ground, apply downward force
+          [_hero.physicsBody applyImpulse:ccp(0, -500.f)];
+
+      }
+      
+
+      
+      
+//    [_hero.physicsBody applyImpulse:ccp(0, -400.f)];
     //[_hero.physicsBody applyAngularImpulse:10000.f];
     _sinceTouch = 0.f;
   }
@@ -78,17 +129,27 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 #pragma mark - CCPhysicsCollisionDelegate
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero level:(CCNode *)level {
-//  [self gameOver];
+
+    
     CGPoint downGravity = ccp(0.0, -700.0);
     _physicsNode.gravity= downGravity;
-    _grounds = @[_ground1, _ground2];
     
-    for (CCNode *ground in _grounds) {
-        // set collision txpe
+    // set char position to ground
+    charPosition = atGround;
+
+    
+    for (CCNode *ground in _grounds0) {
+        // set collision type
         ground.physicsBody.collisionType = @"noMatch";
     }
     
   return YES;
+}
+
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero middle:(CCNode *)middle{
+    NSLog(@"ok, detected");
+    
+    return YES;
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero goal:(CCNode *)goal {
@@ -155,12 +216,12 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
   _sinceTouch += delta;
 
-//  _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
-//
-//  if (_hero.physicsBody.allowsRotation) {
-//    float angularVelocity = clampf(_hero.physicsBody.angularVelocity, -2.f, 1.f);
-//    _hero.physicsBody.angularVelocity = angularVelocity;
-//  }
+  _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
+
+  if (_hero.physicsBody.allowsRotation) {
+    float angularVelocity = clampf(_hero.physicsBody.angularVelocity, -2.f, 1.f);
+    _hero.physicsBody.angularVelocity = angularVelocity;
+  }
 
 //  if ((_sinceTouch > 0.5f)) {
 //    [_hero.physicsBody applyAngularImpulse:-40000.f*delta];
@@ -168,19 +229,41 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
   _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed *delta), _physicsNode.position.y);
 
-  // loop the ground
-  for (CCNode *ground in _grounds) {
-    // get the world position of the ground
-    CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
-    // get the screen position of the ground
-    CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+    // todo: optimize the repeated code
+    // loop the lower limit
+    for (CCNode *ground in _grounds0) {
+        // get the world position of the ground
+        CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
+        // get the screen position of the ground
+        CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
 
-    // if the left corner is one complete width off the screen, move it to the right
-    if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
-      ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+        // if the left corner is one complete width off the screen, move it to the right
+        if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
+          ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+        }
     }
-  }
-
+    // loop the upper limit
+    for (CCNode *ground in _grounds1) {
+        // get the world position of the ground
+        CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
+        // get the screen position of the ground
+        CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+        // if the left corner is one complete width off the screen, move it to the right
+        if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
+            ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+        }
+    }
+    // loop the middle sensor
+    for (CCNode *ground in _grounds2) {
+        // get the world position of the ground
+        CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
+        // get the screen position of the ground
+        CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+        // if the left corner is one complete width off the screen, move it to the right
+        if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
+            ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+        }
+    }
 
   NSMutableArray *offScreenObstacles = nil;
 
