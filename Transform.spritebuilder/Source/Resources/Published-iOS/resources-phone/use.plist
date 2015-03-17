@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>use/swim1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{33, 1}, {80, 31}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<true/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {80, 31}}</string>
+			<key>sourceSize</key>
+			<string>{80, 31}</string>
+		</dict>
+		<key>use/swim2.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 1}, {82, 30}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<true/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {82, 30}}</string>
+			<key>sourceSize</key>
+			<string>{82, 30}</string>
+		</dict>
+		<key>use/swim3.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{84, 82}, {77, 34}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {77, 34}}</string>
+			<key>sourceSize</key>
+			<string>{77, 34}</string>
+		</dict>
+		<key>use/swim4.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{101, 1}, {75, 34}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<true/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {75, 34}}</string>
+			<key>sourceSize</key>
+			<string>{75, 34}</string>
+		</dict>
+		<key>use/swim5.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{66, 1}, {79, 33}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<true/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {79, 33}}</string>
+			<key>sourceSize</key>
+			<string>{79, 33}</string>
+		</dict>
+		<key>use/swim6.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 85}, {81, 34}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {81, 34}}</string>
+			<key>sourceSize</key>
+			<string>{81, 34}</string>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>format</key>
+		<integer>2</integer>
+		<key>size</key>
+		<string>{256, 128}</string>
+		<key>textureFileName</key>
+		<string>use.png</string>
+	</dict>
+</dict>
+</plist>

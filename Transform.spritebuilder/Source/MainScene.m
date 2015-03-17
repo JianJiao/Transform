@@ -8,6 +8,7 @@
 
 #import "MainScene.h"
 #import "Obstacle.h"
+#import "Hero.h"
 
 static const CGFloat firstObstaclePosition = 280.f;
 static const CGFloat distanceBetweenObstacles = 160.f;
@@ -19,7 +20,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 };
 
 @implementation MainScene {
-    CCSprite *_hero;
+    Hero *_hero;
     CCPhysicsNode *_physicsNode;
 
     CCNode *_ground1, *_ground2, *_ground3, *_ground4,*_ground5, *_ground6;
@@ -155,6 +156,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
     _physicsNode.gravity= downGravity;
     
+    [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
+    
     // set char position to ground
     charPosition = atGround;
 
@@ -239,6 +242,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [self runAction:bounce];
   }
 }
+
 
 - (void)restart {
   CCScene *scene = [CCBReader loadAsScene:@"MainScene"];
