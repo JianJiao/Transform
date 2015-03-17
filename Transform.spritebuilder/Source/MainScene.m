@@ -48,6 +48,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSString *atLower;
     
     CGPoint downGravity, upGravity;
+    
+    float yVelocity;
 }
 
 
@@ -266,7 +268,13 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void)update:(CCTime)delta {
   // clamp velocity
-  float yVelocity = clampf(_hero.physicsBody.velocity.y, -100.f, 100.f);
+  //float yVelocity = clampf(_hero.physicsBody.velocity.y, -100.f, 100.f);
+    if([charPosition isEqualToString:atUpper] || [charPosition isEqualToString:atRoof]){
+        yVelocity = clampf(_hero.physicsBody.velocity.y, -1*MAXFLOAT, 100.f);
+    }else{
+        yVelocity = clampf(_hero.physicsBody.velocity.y, -100.f, MAXFLOAT);
+    }
+    
   _hero.physicsBody.velocity = ccp(0, yVelocity);
   _hero.position = ccp(_hero.position.x + delta * _scrollSpeed, _hero.position.y);
 
