@@ -7,33 +7,7 @@
 		<key>use/img1.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{354, 354}, {373, 351}}</string>
-			<key>offset</key>
-			<string>{0, 0}</string>
-			<key>rotated</key>
-			<false/>
-			<key>sourceColorRect</key>
-			<string>{{0, 0}, {373, 351}}</string>
-			<key>sourceSize</key>
-			<string>{373, 351}</string>
-		</dict>
-		<key>use/img2.png</key>
-		<dict>
-			<key>frame</key>
-			<string>{{400, 1}, {397, 351}}</string>
-			<key>offset</key>
-			<string>{0, 0}</string>
-			<key>rotated</key>
-			<false/>
-			<key>sourceColorRect</key>
-			<string>{{0, 0}, {397, 351}}</string>
-			<key>sourceSize</key>
-			<string>{397, 351}</string>
-		</dict>
-		<key>use/reversed1.png</key>
-		<dict>
-			<key>frame</key>
-			<string>{{1, 354}, {373, 351}}</string>
+			<string>{{354, 1}, {373, 351}}</string>
 			<key>offset</key>
 			<string>{0, 0}</string>
 			<key>rotated</key>
@@ -43,18 +17,44 @@
 			<key>sourceSize</key>
 			<string>{373, 351}</string>
 		</dict>
-		<key>use/reversed2.png</key>
+		<key>use/img2.png</key>
 		<dict>
 			<key>frame</key>
 			<string>{{1, 1}, {397, 351}}</string>
 			<key>offset</key>
 			<string>{0, 0}</string>
 			<key>rotated</key>
-			<false/>
+			<true/>
 			<key>sourceColorRect</key>
 			<string>{{0, 0}, {397, 351}}</string>
 			<key>sourceSize</key>
 			<string>{397, 351}</string>
+		</dict>
+		<key>use/reversed1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 400}, {72, 68}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<true/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {72, 68}}</string>
+			<key>sourceSize</key>
+			<string>{72, 68}</string>
+		</dict>
+		<key>use/reversed2.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{71, 400}, {72, 64}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<true/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {72, 64}}</string>
+			<key>sourceSize</key>
+			<string>{72, 64}</string>
 		</dict>
 	</dict>
 	<key>metadata</key>
@@ -62,7 +62,7 @@
 		<key>format</key>
 		<integer>2</integer>
 		<key>size</key>
-		<string>{1024, 1024}</string>
+		<string>{1024, 512}</string>
 		<key>textureFileName</key>
 		<string>use.png</string>
 	</dict>

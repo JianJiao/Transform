@@ -171,8 +171,6 @@
 		</dict>
 		<key>use</key>
 		<dict>
-			<key>isDirty</key>
-			<true/>
 			<key>isSmartSpriteSheet</key>
 			<true/>
 		</dict>
