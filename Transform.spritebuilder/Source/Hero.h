@@ -11,5 +11,6 @@
 @interface Hero : CCSprite
 
 -(void) startFish;
+-(void) startHuman;
 
 @end

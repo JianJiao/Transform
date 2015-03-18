@@ -18,4 +18,9 @@
     [animationManager runAnimationsForSequenceNamed:@"fish"];
 }
 
+- (void)startHuman{
+    CCAnimationManager* animationManager = self.animationManager;
+    [animationManager runAnimationsForSequenceNamed:@"human"];
+}
+
 @end

@@ -113,6 +113,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
           // if on the ground, jump and reverse gravity
           // reset ground collision type to allow event handling
           // set char position to lower
+          // become a fish
           [_hero.physicsBody applyImpulse:ccp(0, 50.f)];
           _physicsNode.gravity = upGravity;
           for (CCNode *ground in _grounds0) {
@@ -120,6 +121,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
               ground.physicsBody.collisionType = @"level";
           }
           charPosition = atLower;
+          [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
       }else if([charPosition isEqualToString:atLower]){
           // if at lower space, apply downward force
           [_hero.physicsBody applyImpulse:ccp(0, -300.f)];
@@ -151,22 +153,19 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 #pragma mark - CCPhysicsCollisionDelegate
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero level:(CCNode *)level {
-
-    
-
     _physicsNode.gravity= downGravity;
-    
-    [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
     
     // set char position to ground
     charPosition = atGround;
-
     
+    // reset ground collision type
     for (CCNode *ground in _grounds0) {
-        // set collision type
         ground.physicsBody.collisionType = @"noMatch";
     }
     
+    // become a handsome young man again
+    [_hero performSelector:@selector(startHuman) withObject:nil afterDelay:0.f];
+
   return YES;
 }
 
@@ -197,14 +196,16 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         // turn gravity downward, set char position at upper
         _physicsNode.gravity = downGravity;
         charPosition = atUpper;
-//        _hero.physicsBody.velocity = ccp(0, 150.f);
+
 
     }else{
         // at lower space
         // turn gravity upward, set char position at lower
+        // turn into a fish
         _physicsNode.gravity = upGravity;
         charPosition = atLower;
-//        _hero.physicsBody.velocity = ccp(0, -150.f);
+        [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
+        
 
         
     }
