@@ -194,8 +194,11 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     if(hero.position.y > 284){
         // at upper space
         // turn gravity downward, set char position at upper
+        // turn into a bird
         _physicsNode.gravity = downGravity;
         charPosition = atUpper;
+       // [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
+        [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
 
 
     }else{

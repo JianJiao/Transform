@@ -23,4 +23,14 @@
     [animationManager runAnimationsForSequenceNamed:@"human"];
 }
 
+- (void)startBird{
+    CCAnimationManager* animationManager = self.animationManager;
+    [animationManager runAnimationsForSequenceNamed:@"bird"];
+}
+
+- (void) startTest{
+    CCAnimationManager* animationManager = self.animationManager;
+    [animationManager runAnimationsForSequenceNamed:@"test"];
+}
+
 @end

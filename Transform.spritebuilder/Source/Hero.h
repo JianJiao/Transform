@@ -12,5 +12,7 @@
 
 -(void) startFish;
 -(void) startHuman;
+-(void) startBird;
+-(void) startTest;
 
 @end
