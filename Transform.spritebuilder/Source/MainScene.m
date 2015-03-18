@@ -132,6 +132,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
           // if at roof, jump down and reverse gravity
           // reset roof collision type to allow event handling
           // set char position to upper
+          // become a bird
           [_hero.physicsBody applyImpulse:ccp(0, -50.f)];
           _physicsNode.gravity = downGravity;
           for (CCNode *ground in _grounds1) {
@@ -139,6 +140,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
               ground.physicsBody.collisionType = @"roof";
           }
           charPosition = atUpper;
+          [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
       }
       
 
@@ -184,6 +186,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         ground.physicsBody.collisionType = @"noMatch";
     }
     
+    //become a cute angel
+    [_hero performSelector:@selector(startAngel) withObject:nil afterDelay:0.f];
+    
     return YES;
 }
 
@@ -197,7 +202,6 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         // turn into a bird
         _physicsNode.gravity = downGravity;
         charPosition = atUpper;
-       // [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
         [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
 
 

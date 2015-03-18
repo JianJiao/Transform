@@ -13,6 +13,6 @@
 -(void) startFish;
 -(void) startHuman;
 -(void) startBird;
--(void) startTest;
+-(void) startAngel;
 
 @end

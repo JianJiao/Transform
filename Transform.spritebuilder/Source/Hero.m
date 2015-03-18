@@ -28,9 +28,9 @@
     [animationManager runAnimationsForSequenceNamed:@"bird"];
 }
 
-- (void) startTest{
+- (void) startAngel{
     CCAnimationManager* animationManager = self.animationManager;
-    [animationManager runAnimationsForSequenceNamed:@"test"];
+    [animationManager runAnimationsForSequenceNamed:@"angel"];
 }
 
 @end

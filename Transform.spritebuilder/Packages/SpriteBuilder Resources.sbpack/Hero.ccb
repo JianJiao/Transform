@@ -16,7 +16,7 @@
 	<key>currentResolution</key>
 	<integer>0</integer>
 	<key>currentSequenceId</key>
-	<integer>3</integer>
+	<integer>4</integer>
 	<key>docDimensionsType</key>
 	<integer>1</integer>
 	<key>fileType</key>
@@ -270,7 +270,7 @@
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/f2.png</string>
+										<string>use/bbb1.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -283,12 +283,30 @@
 									<key>name</key>
 									<string>spriteFrame</string>
 									<key>time</key>
-									<real>0.1666666716337204</real>
+									<real>0.13333334028720856</real>
 									<key>type</key>
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>sprites/run3.png</string>
+										<string>use/bbb2.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.26666668057441711</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/bbb1.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -319,7 +337,7 @@
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/img1.png</string>
+										<string>use/ang1.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -332,12 +350,66 @@
 									<key>name</key>
 									<string>spriteFrame</string>
 									<key>time</key>
-									<real>0.23333333432674408</real>
+									<real>0.1666666716337204</real>
 									<key>type</key>
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>sprites/run1.png</string>
+										<string>use/ang2.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.3333333432674408</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/ang3.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.5</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/ang4.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.66666668653488159</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/ang1.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -422,7 +494,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>sprites/run3.png</string>
+							<string>use/ang1.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -458,6 +530,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -746,7 +820,7 @@
 				<integer>12</integer>
 			</dict>
 			<key>chainedSequenceId</key>
-			<integer>2</integer>
+			<integer>3</integer>
 			<key>length</key>
 			<real>0.26666668057441711</real>
 			<key>name</key>
@@ -758,7 +832,7 @@
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>
-			<real>128</real>
+			<real>347.54776000976562</real>
 			<key>sequenceId</key>
 			<integer>3</integer>
 			<key>soundChannel</key>
@@ -784,17 +858,17 @@
 			<key>chainedSequenceId</key>
 			<integer>4</integer>
 			<key>length</key>
-			<real>0.3333333432674408</real>
+			<real>0.66666668653488159</real>
 			<key>name</key>
-			<string>test</string>
+			<string>angel</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>0.0</real>
+			<real>0.66666668653488159</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>
-			<real>128</real>
+			<real>466.81039428710938</real>
 			<key>sequenceId</key>
 			<integer>4</integer>
 			<key>soundChannel</key>
