@@ -16,7 +16,7 @@
 	<key>currentResolution</key>
 	<integer>0</integer>
 	<key>currentSequenceId</key>
-	<integer>0</integer>
+	<integer>2</integer>
 	<key>docDimensionsType</key>
 	<integer>1</integer>
 	<key>fileType</key>
@@ -185,25 +185,7 @@
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/swim1.png</string>
-										<string>Use regular file</string>
-									</array>
-								</dict>
-								<dict>
-									<key>easing</key>
-									<dict>
-										<key>type</key>
-										<integer>0</integer>
-									</dict>
-									<key>name</key>
-									<string>spriteFrame</string>
-									<key>time</key>
-									<real>0.10000000149011612</real>
-									<key>type</key>
-									<integer>7</integer>
-									<key>value</key>
-									<array>
-										<string>use/swim2.png</string>
+										<string>use/reversed1.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -221,25 +203,7 @@
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/swim3.png</string>
-										<string>Use regular file</string>
-									</array>
-								</dict>
-								<dict>
-									<key>easing</key>
-									<dict>
-										<key>type</key>
-										<integer>0</integer>
-									</dict>
-									<key>name</key>
-									<string>spriteFrame</string>
-									<key>time</key>
-									<real>0.30000001192092896</real>
-									<key>type</key>
-									<integer>7</integer>
-									<key>value</key>
-									<array>
-										<string>use/swim4.png</string>
+										<string>use/reversed2.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -257,25 +221,7 @@
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/swim5.png</string>
-										<string>Use regular file</string>
-									</array>
-								</dict>
-								<dict>
-									<key>easing</key>
-									<dict>
-										<key>type</key>
-										<integer>0</integer>
-									</dict>
-									<key>name</key>
-									<string>spriteFrame</string>
-									<key>time</key>
-									<real>0.5</real>
-									<key>type</key>
-									<integer>7</integer>
-									<key>value</key>
-									<array>
-										<string>use/swim6.png</string>
+										<string>use/reversed1.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -293,7 +239,7 @@
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/swim1.png</string>
+										<string>use/reversed2.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -378,7 +324,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>use/swim1.png</string>
+							<string>use/reversed2.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -414,6 +360,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -583,8 +531,6 @@
 				<array/>
 			</dict>
 		</array>
-		<key>selected</key>
-		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>
