@@ -28,6 +28,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSArray *_grounds0, *_grounds1, *_grounds2;
 
     NSTimeInterval _sinceTouch;
+    NSTimeInterval _sinceHit;
     
 
     NSMutableArray *_obstacles;
@@ -109,7 +110,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   if (!_gameOver) {
-      if ([charPosition isEqualToString: atGround]) {
+      if ([charPosition isEqualToString: atGround] && _sinceHit>1.0f) {
           // if on the ground, jump and reverse gravity
           // reset ground collision type to allow event handling
           // set char position to lower
@@ -128,7 +129,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
       }else if([charPosition isEqualToString:atUpper]){
           // if at upper space, apply upward force
           [_hero.physicsBody applyImpulse:ccp(0, 300.f)];
-      }else if([charPosition isEqualToString:atRoof]){
+      }else if([charPosition isEqualToString:atRoof] && _sinceHit>1.0f){
           // if at roof, jump down and reverse gravity
           // reset roof collision type to allow event handling
           // set char position to upper
@@ -157,6 +158,13 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero level:(CCNode *)level {
     _physicsNode.gravity= downGravity;
     
+    // start the timer
+    _sinceHit = 0.f;
+    // set yvelocity to 0
+    _hero.physicsBody.velocity = ccp(0, 0);
+
+    
+    
     // set char position to ground
     charPosition = atGround;
     
@@ -176,6 +184,12 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     
     
     _physicsNode.gravity= upGravity;
+    
+    // set the timer
+    _sinceHit = 0.f;
+    // set y velocity to 0
+    _hero.physicsBody.velocity = ccp(0, yVelocity);
+
     
     // set char position to roof
     charPosition = atRoof;
@@ -280,7 +294,6 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void)update:(CCTime)delta {
   // clamp velocity
-  //float yVelocity = clampf(_hero.physicsBody.velocity.y, -100.f, 100.f);
     if([charPosition isEqualToString:atUpper] || [charPosition isEqualToString:atRoof]){
         yVelocity = clampf(_hero.physicsBody.velocity.y, -1*MAXFLOAT, 100.f);
     }else{
@@ -290,7 +303,10 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
   _hero.physicsBody.velocity = ccp(0, yVelocity);
   _hero.position = ccp(_hero.position.x + delta * _scrollSpeed, _hero.position.y);
 
-  _sinceTouch += delta;
+    // update the timers
+    _sinceTouch += delta;
+    _sinceHit += delta;
+    
 
   _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
 
