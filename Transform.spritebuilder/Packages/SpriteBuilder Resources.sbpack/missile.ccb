@@ -50,11 +50,11 @@
 		<key>physicsBody</key>
 		<dict>
 			<key>affectedByGravity</key>
-			<true/>
+			<false/>
 			<key>allowsRotation</key>
 			<true/>
 			<key>bodyShape</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>collisionCategories</key>
 			<array/>
 			<key>collisionMask</key>
@@ -62,9 +62,9 @@
 			<key>collisionType</key>
 			<string></string>
 			<key>cornerRadius</key>
-			<real>0.0</real>
+			<real>9.91796875</real>
 			<key>density</key>
-			<real>1</real>
+			<real>2</real>
 			<key>dynamic</key>
 			<true/>
 			<key>elasticity</key>
@@ -74,43 +74,12 @@
 			<key>points</key>
 			<array>
 				<array>
-					<real>0.0</real>
-					<real>0.0</real>
-				</array>
-				<array>
-					<real>0.0</real>
-					<real>42</real>
-				</array>
-				<array>
-					<real>120.04296875</real>
-					<real>29.011734008789062</real>
-				</array>
-				<array>
-					<real>118.22265625</real>
-					<real>15.343765258789062</real>
+					<real>6</real>
+					<real>6.5</real>
 				</array>
 			</array>
 			<key>polygons</key>
-			<array>
-				<array>
-					<array>
-						<real>118.22265625</real>
-						<real>15.343765258789062</real>
-					</array>
-					<array>
-						<real>120.04296875</real>
-						<real>29.011734008789062</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>42</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>0.0</real>
-					</array>
-				</array>
-			</array>
+			<array/>
 		</dict>
 		<key>properties</key>
 		<array>
@@ -168,7 +137,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>use/missle.png</string>
+					<string>use/bomb1_flipped.png</string>
 				</array>
 			</dict>
 			<dict>

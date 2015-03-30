@@ -161,11 +161,11 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void) launchMissileWith: (CGPoint) touchPosition{
     CCNode* missile = [CCBReader load:@"Missile"];
-    missile.position = ccpAdd(_hero.position, ccp(100,0));
+    missile.position = ccpAdd(_hero.position, ccp(30,0));
     [_physicsNode addChild:missile];
     CGPoint launchDirection = [self getDirectionWith:touchPosition];
     //CGPoint launchDirection = ccp(2, 0);
-    CGPoint force = ccpMult(launchDirection, 2000);
+    CGPoint force = ccpMult(launchDirection, 50);
     [missile.physicsBody applyForce:force];
 }
 
