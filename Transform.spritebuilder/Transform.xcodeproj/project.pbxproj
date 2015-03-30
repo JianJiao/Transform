@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5382DAE21AB7F39400DF2D6F /* Hero.m in Sources */ = {isa = PBXBuildFile; fileRef = 5382DAE11AB7F39400DF2D6F /* Hero.m */; };
+		539481BC1AC7B1F800E2654B /* Missile.m in Sources */ = {isa = PBXBuildFile; fileRef = 539481BB1AC7B1F800E2654B /* Missile.m */; };
 		62188DB118A9D328004F3218 /* Obstacle.m in Sources */ = {isa = PBXBuildFile; fileRef = 62188DB018A9D328004F3218 /* Obstacle.m */; };
 		62188DB518AA0A6B004F3218 /* Goal.m in Sources */ = {isa = PBXBuildFile; fileRef = 62188DB418AA0A6B004F3218 /* Goal.m */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
@@ -75,6 +76,8 @@
 /* Begin PBXFileReference section */
 		5382DAE01AB7F39400DF2D6F /* Hero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero.h; path = Source/Hero.h; sourceTree = "<group>"; };
 		5382DAE11AB7F39400DF2D6F /* Hero.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero.m; path = Source/Hero.m; sourceTree = "<group>"; };
+		539481BA1AC7B1F800E2654B /* Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Missile.h; path = Source/Missile.h; sourceTree = "<group>"; };
+		539481BB1AC7B1F800E2654B /* Missile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Missile.m; path = Source/Missile.m; sourceTree = "<group>"; };
 		62188DAF18A9D328004F3218 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obstacle.h; path = Source/Obstacle.h; sourceTree = "<group>"; };
 		62188DB018A9D328004F3218 /* Obstacle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Obstacle.m; path = Source/Obstacle.m; sourceTree = "<group>"; };
 		62188DB318AA0A6B004F3218 /* Goal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Goal.h; path = Source/Goal.h; sourceTree = "<group>"; };
@@ -158,6 +161,8 @@
 				62188DB018A9D328004F3218 /* Obstacle.m */,
 				5382DAE01AB7F39400DF2D6F /* Hero.h */,
 				5382DAE11AB7F39400DF2D6F /* Hero.m */,
+				539481BA1AC7B1F800E2654B /* Missile.h */,
+				539481BB1AC7B1F800E2654B /* Missile.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 				5382DAE21AB7F39400DF2D6F /* Hero.m in Sources */,
 				B737893F1807617C0076A88C /* AppDelegate.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
+				539481BC1AC7B1F800E2654B /* Missile.m in Sources */,
 				62188DB118A9D328004F3218 /* Obstacle.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 			);

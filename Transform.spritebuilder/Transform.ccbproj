@@ -170,10 +170,7 @@
 			<true/>
 		</dict>
 		<key>use</key>
-		<dict>
-			<key>isSmartSpriteSheet</key>
-			<true/>
-		</dict>
+		<dict/>
 	</dict>
 	<key>versionStr</key>
 	<string>revision : 71571752ab

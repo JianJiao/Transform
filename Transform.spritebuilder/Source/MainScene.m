@@ -9,6 +9,7 @@
 #import "MainScene.h"
 #import "Obstacle.h"
 #import "Hero.h"
+#import "missile.h"
 
 static const CGFloat firstObstaclePosition = 280.f;
 static const CGFloat distanceBetweenObstacles = 160.f;
@@ -21,6 +22,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 @implementation MainScene {
     Hero *_hero;
+    Missile *_missile;
+    
     CCPhysicsNode *_physicsNode;
 
     CCNode *_ground1, *_ground2, *_ground3, *_ground4,*_ground5, *_ground6;
@@ -108,49 +111,71 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 #pragma mark - Touch Handling
 
-- (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+- (void)touchBegan:(CCTouch *)touch withEvent:(UIEvent *)event {
   if (!_gameOver) {
-      if ([charPosition isEqualToString: atGround] && _sinceHit>1.0f) {
-          // if on the ground, jump and reverse gravity
-          // reset ground collision type to allow event handling
-          // set char position to lower
-          // become a fish
-          [_hero.physicsBody applyImpulse:ccp(0, 50.f)];
-          _physicsNode.gravity = upGravity;
-          for (CCNode *ground in _grounds0) {
-              // set collision type
-              ground.physicsBody.collisionType = @"level";
+      CGPoint touchLocation = [touch locationInNode:self];
+      if(touchLocation.x<=160.f){
+          // on the left, jump
+          if ([charPosition isEqualToString: atGround] && _sinceHit>1.0f) {
+              // if on the ground, jump and reverse gravity
+              // reset ground collision type to allow event handling
+              // set char position to lower
+              // become a fish
+              [_hero.physicsBody applyImpulse:ccp(0, 50.f)];
+              _physicsNode.gravity = upGravity;
+              for (CCNode *ground in _grounds0) {
+                  // set collision type
+                  ground.physicsBody.collisionType = @"level";
+              }
+              charPosition = atLower;
+              [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
+          }else if([charPosition isEqualToString:atLower]){
+              // if at lower space, apply downward force
+              [_hero.physicsBody applyImpulse:ccp(0, -300.f)];
+          }else if([charPosition isEqualToString:atUpper]){
+              // if at upper space, apply upward force
+              [_hero.physicsBody applyImpulse:ccp(0, 300.f)];
+          }else if([charPosition isEqualToString:atRoof] && _sinceHit>1.0f){
+              // if at roof, jump down and reverse gravity
+              // reset roof collision type to allow event handling
+              // set char position to upper
+              // become a bird
+              [_hero.physicsBody applyImpulse:ccp(0, -50.f)];
+              _physicsNode.gravity = downGravity;
+              for (CCNode *ground in _grounds1) {
+                  // set collision type
+                  ground.physicsBody.collisionType = @"roof";
+              }
+              charPosition = atUpper;
+              [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
           }
-          charPosition = atLower;
-          [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
-      }else if([charPosition isEqualToString:atLower]){
-          // if at lower space, apply downward force
-          [_hero.physicsBody applyImpulse:ccp(0, -300.f)];
-      }else if([charPosition isEqualToString:atUpper]){
-          // if at upper space, apply upward force
-          [_hero.physicsBody applyImpulse:ccp(0, 300.f)];
-      }else if([charPosition isEqualToString:atRoof] && _sinceHit>1.0f){
-          // if at roof, jump down and reverse gravity
-          // reset roof collision type to allow event handling
-          // set char position to upper
-          // become a bird
-          [_hero.physicsBody applyImpulse:ccp(0, -50.f)];
-          _physicsNode.gravity = downGravity;
-          for (CCNode *ground in _grounds1) {
-              // set collision type
-              ground.physicsBody.collisionType = @"roof";
-          }
-          charPosition = atUpper;
-          [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
+      }else{
+          // on the right, shoot
+        [self launchMissileWith:touchLocation];
       }
-      
-
-      
-      
 //    [_hero.physicsBody applyImpulse:ccp(0, -400.f)];
     //[_hero.physicsBody applyAngularImpulse:10000.f];
     _sinceTouch = 0.f;
   }
+}
+
+- (void) launchMissileWith: (CGPoint) touchPosition{
+    CCNode* missile = [CCBReader load:@"Missile"];
+    missile.position = ccpAdd(_hero.position, ccp(100,0));
+    [_physicsNode addChild:missile];
+    CGPoint launchDirection = [self getDirectionWith:touchPosition];
+    //CGPoint launchDirection = ccp(2, 0);
+    CGPoint force = ccpMult(launchDirection, 2000);
+    [missile.physicsBody applyForce:force];
+}
+
+- (CGPoint) getDirectionWith: (CGPoint) touchPosition{
+    // get the screen position of the hero
+    CGPoint heroPosition = [_physicsNode convertToWorldSpace:_hero.position];
+    CGPoint launchDirection = ccp(touchPosition.x-heroPosition.x, touchPosition.y-heroPosition.y);
+    return launchDirection;
+    
+
 }
 
 #pragma mark - CCPhysicsCollisionDelegate
@@ -208,8 +233,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionSeparate:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero middle:(CCNode *)middle{
-    NSLog(@"ok, detected");
-    NSLog(@"%f",hero.position.y);
+    //NSLog(@"ok, detected");
+    //NSLog(@"%f",hero.position.y);
     if(hero.position.y > 284){
         // at upper space
         // turn gravity downward, set char position at upper
@@ -319,15 +344,20 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //    [_hero.physicsBody applyAngularImpulse:-40000.f*delta];
 //  }
 
-  _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed *delta), _physicsNode.position.y);
+    _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed *delta), _physicsNode.position.y);
+    //NSLog(@"%@", NSStringFromCGPoint(_physicsNode.position));
+
 
     // todo: optimize the repeated code
     // loop the lower limit
     for (CCNode *ground in _grounds0) {
         // get the world position of the ground
         CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
+        // actually, world position is the screen position; there is not need to do
+        // the below conversion again
         // get the screen position of the ground
         CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+
 
         // if the left corner is one complete width off the screen, move it to the right
         if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
