@@ -139,10 +139,10 @@
 						<key>value</key>
 						<array>
 							<real>0.5</real>
-							<real>228</real>
+							<real>0.40140846371650696</real>
 							<integer>1</integer>
 							<integer>2</integer>
-							<integer>0</integer>
+							<integer>2</integer>
 						</array>
 					</dict>
 					<dict>
@@ -177,7 +177,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>FlappyFlyArtPack/pipe_bottom.png</string>
+							<string>use/shark1.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -213,6 +213,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -312,10 +314,10 @@
 						<key>value</key>
 						<array>
 							<real>0.5</real>
-							<real>128</real>
+							<real>0.22535210847854614</real>
 							<integer>1</integer>
 							<integer>2</integer>
-							<integer>0</integer>
+							<integer>2</integer>
 						</array>
 					</dict>
 					<dict>
@@ -326,7 +328,7 @@
 						<key>value</key>
 						<array>
 							<real>0.5</real>
-							<real>0.0</real>
+							<real>1</real>
 						</array>
 					</dict>
 					<dict>
@@ -350,7 +352,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>FlappyFlyArtPack/pipe_top.png</string>
+							<string>use/hawk1.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -386,8 +388,6 @@
 						<array/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>

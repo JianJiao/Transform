@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		538035681ACA3CA700661980 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = 538035671ACA3CA700661980 /* Enemy.m */; };
+		5380356E1ACA454700661980 /* Enemy1.m in Sources */ = {isa = PBXBuildFile; fileRef = 5380356D1ACA454700661980 /* Enemy1.m */; };
+		538035711ACA455800661980 /* Enemy2.m in Sources */ = {isa = PBXBuildFile; fileRef = 538035701ACA455800661980 /* Enemy2.m */; };
 		5382DAE21AB7F39400DF2D6F /* Hero.m in Sources */ = {isa = PBXBuildFile; fileRef = 5382DAE11AB7F39400DF2D6F /* Hero.m */; };
 		539481BC1AC7B1F800E2654B /* Missile.m in Sources */ = {isa = PBXBuildFile; fileRef = 539481BB1AC7B1F800E2654B /* Missile.m */; };
 		62188DB118A9D328004F3218 /* Obstacle.m in Sources */ = {isa = PBXBuildFile; fileRef = 62188DB018A9D328004F3218 /* Obstacle.m */; };
@@ -74,6 +77,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		538035661ACA3CA700661980 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enemy.h; path = Source/Enemy.h; sourceTree = "<group>"; };
+		538035671ACA3CA700661980 /* Enemy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Enemy.m; path = Source/Enemy.m; sourceTree = "<group>"; };
+		5380356C1ACA454700661980 /* Enemy1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enemy1.h; path = Source/Enemy1.h; sourceTree = "<group>"; };
+		5380356D1ACA454700661980 /* Enemy1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Enemy1.m; path = Source/Enemy1.m; sourceTree = "<group>"; };
+		5380356F1ACA455800661980 /* Enemy2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enemy2.h; path = Source/Enemy2.h; sourceTree = "<group>"; };
+		538035701ACA455800661980 /* Enemy2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Enemy2.m; path = Source/Enemy2.m; sourceTree = "<group>"; };
 		5382DAE01AB7F39400DF2D6F /* Hero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero.h; path = Source/Hero.h; sourceTree = "<group>"; };
 		5382DAE11AB7F39400DF2D6F /* Hero.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero.m; path = Source/Hero.m; sourceTree = "<group>"; };
 		539481BA1AC7B1F800E2654B /* Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Missile.h; path = Source/Missile.h; sourceTree = "<group>"; };
@@ -163,6 +172,12 @@
 				5382DAE11AB7F39400DF2D6F /* Hero.m */,
 				539481BA1AC7B1F800E2654B /* Missile.h */,
 				539481BB1AC7B1F800E2654B /* Missile.m */,
+				538035661ACA3CA700661980 /* Enemy.h */,
+				538035671ACA3CA700661980 /* Enemy.m */,
+				5380356C1ACA454700661980 /* Enemy1.h */,
+				5380356D1ACA454700661980 /* Enemy1.m */,
+				5380356F1ACA455800661980 /* Enemy2.h */,
+				538035701ACA455800661980 /* Enemy2.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -374,11 +389,14 @@
 			files = (
 				62188DB518AA0A6B004F3218 /* Goal.m in Sources */,
 				5382DAE21AB7F39400DF2D6F /* Hero.m in Sources */,
+				538035681ACA3CA700661980 /* Enemy.m in Sources */,
 				B737893F1807617C0076A88C /* AppDelegate.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
 				539481BC1AC7B1F800E2654B /* Missile.m in Sources */,
 				62188DB118A9D328004F3218 /* Obstacle.m in Sources */,
+				538035711ACA455800661980 /* Enemy2.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
+				5380356E1ACA454700661980 /* Enemy1.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

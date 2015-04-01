@@ -25,19 +25,40 @@ static const CGFloat pipeDistance = 142.f;
 static const CGFloat maximumYPositionTopPipe = maximumYPositionBottomPipe - pipeDistance;
 
 - (void)didLoadFromCCB {
-  _topPipe.physicsBody.collisionType = @"level";
+  _topPipe.physicsBody.collisionType = @"levela";
   _topPipe.physicsBody.sensor = YES;
 
-  _bottomPipe.physicsBody.collisionType = @"level";
+  _bottomPipe.physicsBody.collisionType = @"levela";
   _bottomPipe.physicsBody.sensor = YES;
 }
 
 - (void)setupRandomPosition {
-  // value between 0.f and 1.f
-  CGFloat random = ((double)arc4random() / ARC4RANDOM_MAX);
-  CGFloat range = maximumYPositionTopPipe - minimumYPositionTopPipe;
-  _topPipe.position = ccp(_topPipe.position.x, minimumYPositionTopPipe + (random * range));
-  _bottomPipe.position = ccp(_bottomPipe.position.x, _topPipe.position.y + pipeDistance);
+//  // value between 0.f and 1.f
+//  CGFloat random = ((double)arc4random() / ARC4RANDOM_MAX);
+//  CGFloat range = maximumYPositionTopPipe - minimumYPositionTopPipe;
+//  _topPipe.position = ccp(_topPipe.position.x, minimumYPositionTopPipe + (random * range));
+//  _bottomPipe.position = ccp(_bottomPipe.position.x, _topPipe.position.y + pipeDistance);
+    // value between 0.f and 1.f
+    CGFloat random1 = ((double)arc4random() / ARC4RANDOM_MAX);
+    CGFloat random2 = ((double)arc4random() / ARC4RANDOM_MAX);
+
+    CGFloat range = 0.45f;
+    _topPipe.position = ccp(_topPipe.position.x, random1*range);
+    _bottomPipe.position = ccp(_bottomPipe.position.x, 0.5+random2*range);
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,9 +9,11 @@
 #import "MainScene.h"
 #import "Obstacle.h"
 #import "Hero.h"
-#import "missile.h"
+#import "Missile.h"
+#import "Enemy.h"
 
 static const CGFloat firstObstaclePosition = 280.f;
+static const CGFloat firstEnemyPosition = 280.f;
 static const CGFloat distanceBetweenObstacles = 160.f;
 
 typedef NS_ENUM (NSInteger, DrawingOrder) {
@@ -35,6 +37,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     
 
     NSMutableArray *_obstacles;
+    NSMutableArray *_enemies1;
+    NSMutableArray *_enemies2;
 
     CCButton *_restartButton;
 
@@ -51,6 +55,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSString *atGround;
     NSString *atUpper;
     NSString *atLower;
+    
+    NSString *Enemy1;
+    NSString *Enemy2;
     
     CGPoint downGravity, upGravity;
     
@@ -90,6 +97,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     atUpper = @"upper";
     atLower = @"lower";
     
+    Enemy1 = @"Enemy1";
+    Enemy2 = @"Enmey2";
+    
     downGravity = ccp(0.0, -300.0);
     upGravity = ccp(0.0, 300);
 
@@ -102,9 +112,19 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _hero.zOrder = DrawingOrdeHero;
 
   _obstacles = [NSMutableArray array];
-//  [self spawnNewObstacle];
-//  [self spawnNewObstacle];
-//  [self spawnNewObstacle];
+  [self spawnNewObstacle];
+  [self spawnNewObstacle];
+  [self spawnNewObstacle];
+    
+//    _enemies1 = [NSMutableArray array];
+//    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
+//    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
+//    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
+//
+//    _enemies2 = [NSMutableArray array];
+//    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
+//    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
+//    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
 }
 
 
@@ -312,8 +332,76 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
   [obstacle setupRandomPosition];
   obstacle.zOrder = DrawingOrderPipes;
   [_physicsNode addChild:obstacle];
-  [_obstacles addObject:obstacle];
+  [_obstacles addObject:obstacle];  // _obstacles is a collection
 }
+
+#pragma mark - enemy Spawning
+
+- (void)spawnNewEnemyWith: (NSString*) enemyType and: (NSMutableArray*) enemies{
+    
+    CCNode *previousEnemy = [enemies lastObject];
+    CGFloat previousEnemyXPosition = previousEnemy.position.x;
+    
+    if (!previousEnemy) {
+        // this is the first obstacle
+        previousEnemyXPosition = firstEnemyPosition;
+    }
+
+    Enemy *enemy = (Enemy *) [CCBReader load:enemyType];
+    enemy.position = ccp(previousEnemyXPosition + distanceBetweenObstacles, 0);
+    [enemy setupRandomPositionWith: enemyType];
+    enemy.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:enemy];
+    [enemies addObject:enemy];  // _obstacles is a collection
+}
+
+
+
+
+
+- (void) tryRemove: (NSString*) enemyType From: (NSMutableArray*) objs{
+    NSMutableArray *offScreenObjs = nil;
+    
+    for (CCNode *obj in objs) {
+        CGPoint objWorldPosition = [_physicsNode convertToWorldSpace:obj.position];
+        CGPoint objScreenPosition = [self convertToNodeSpace:objWorldPosition];
+        if (objScreenPosition.x < -obj.contentSize.width) {
+            if (!offScreenObjs) {
+                offScreenObjs = [NSMutableArray array];
+            }
+            [offScreenObjs addObject:obj];
+        }
+    }
+    for (CCNode *objToRemove in offScreenObjs) {
+        [objToRemove removeFromParent];
+        [objs removeObject:objToRemove];
+        // for each removed obstacle, add a new one
+//        [self spawnNewEnemyWith: enemyType and: objs];
+    }
+}
+
+// this name is somehow problematic
+//- (void)remove: (NSString*) enemyType From: (NSMutableArray*) objs{
+//    NSMutableArray *offScreenObjs = nil;
+//    
+//    for (CCNode *obj in objs) {
+//        CGPoint objWorldPosition = [_physicsNode convertToWorldSpace:obj.position];
+//        CGPoint objScreenPosition = [self convertToNodeSpace:objWorldPosition];
+//        if (objScreenPosition.x < -obj.contentSize.width) {
+//            if (!offScreenObjs) {
+//                offScreenObjs = [NSMutableArray array];
+//            }
+//            [offScreenObjs addObject:obj];
+//        }
+//    }
+//    for (CCNode *objToRemove in offScreenObjs) {
+//        [objToRemove removeFromParent];
+//        [objs removeObject:objToRemove];
+//        // for each removed obstacle, add a new one
+//        [self spawnNewEnemyWith: enemyType and: objs];
+//    }
+//}
+
 
 #pragma mark - Update
 
@@ -406,6 +494,12 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     // for each removed obstacle, add a new one
     [self spawnNewObstacle];
   }
+    
+//    [self tryRemove:Enemy1 From:_enemies1];
+//    [self tryRemove:Enemy2 From:_enemies2];   
+
 }
+
+
 
 @end
