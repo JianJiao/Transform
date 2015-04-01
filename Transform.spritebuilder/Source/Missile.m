@@ -10,4 +10,9 @@
 
 @implementation Missile
 
+- (void)didLoadFromCCB {
+    self.physicsBody.collisionType = @"missile";
+
+}
+
 @end

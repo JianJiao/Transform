@@ -10,6 +10,8 @@
 
 @interface Enemy : CCSprite
 
+@property NSString *myType;
+
 - (void)setupRandomPositionWith: (NSString*) enemyType;
 
 

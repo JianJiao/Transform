@@ -13,20 +13,22 @@
 #define ARC4RANDOM_MAX      0x100000000
 
 // visibility on a 3,5-inch iPhone ends a 88 points and we want some meat
-static const CGFloat range = 0.45f;
-static const CGFloat start = 0.5f;
+static const CGFloat range = 275.f;
+static const CGFloat start = 288.f;
 
 
 - (void)didLoadFromCCB {
-    self.physicsBody.collisionType = @"levela";
+    self.physicsBody.collisionType = @"enemy";
     self.physicsBody.sensor = YES;
 }
 
 - (void)setupRandomPositionWith: (NSString*) enemyType {
-    CGFloat random= ((double)arc4random() / ARC4RANDOM_MAX);
+    CGFloat random1= ((double)arc4random() / ARC4RANDOM_MAX);
+    CGFloat random2= ((double)arc4random()/ ARC4RANDOM_MAX);
     if([enemyType isEqualToString:@"Enemy2"]){
-        self.position = ccp(self.position.x, random*range);
+        self.position = ccp(self.position.x, start + random2
+                            *range);
     }else if ([enemyType isEqualToString:@"Enemy1"]){
-        self.position = ccp(self.position.x, start + random*range);
+        self.position = ccp(self.position.x,10+ random1*range);
     }
 }@end

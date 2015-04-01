@@ -8,6 +8,14 @@
 
 #import "Enemy1.h"
 
-@implementation Enemy1
+@implementation Enemy1{
+    NSString* myType;
+}
+
+- (void)didLoadFromCCB {
+    myType = @"Enemy1";
+    self.physicsBody.collisionType = @"enemy";
+    self.physicsBody.sensor = YES;
+}
 
 @end

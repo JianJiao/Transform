@@ -12,7 +12,6 @@
 #import "Missile.h"
 #import "Enemy.h"
 
-static const CGFloat firstObstaclePosition = 280.f;
 static const CGFloat firstEnemyPosition = 280.f;
 static const CGFloat distanceBetweenObstacles = 160.f;
 
@@ -224,6 +223,19 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
   return YES;
 }
 
+
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero enemy:(CCNode *)enemy {
+    [self gameOver];
+    return YES;
+}
+
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile enemy:(CCNode *)enemy {
+    NSLog(@"collision detected");
+//    Enemy *en = (Enemy *) enemy;
+//    [self tryRemoveEnemy:en];
+    return YES;
+}
+
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero roof:(CCNode *)roof {
     
     
@@ -316,24 +328,24 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
   [[CCDirector sharedDirector]replaceScene:scene];
 }
 
-#pragma mark - Obstacle Spawning
-
-- (void)spawnNewObstacle {
-  CCNode *previousObstacle = [_obstacles lastObject];
-  CGFloat previousObstacleXPosition = previousObstacle.position.x;
-
-  if (!previousObstacle) {
-    // this is the first obstacle
-    previousObstacleXPosition = firstObstaclePosition;
-  }
-
-  Obstacle *obstacle = (Obstacle *)[CCBReader load:@"Obstacle"];
-  obstacle.position = ccp(previousObstacleXPosition + distanceBetweenObstacles, 0);
-  [obstacle setupRandomPosition];
-  obstacle.zOrder = DrawingOrderPipes;
-  [_physicsNode addChild:obstacle];
-  [_obstacles addObject:obstacle];  // _obstacles is a collection
-}
+//#pragma mark - Obstacle Spawning
+//
+//- (void)spawnNewObstacle {
+//  CCNode *previousObstacle = [_obstacles lastObject];
+//  CGFloat previousObstacleXPosition = previousObstacle.position.x;
+//
+//  if (!previousObstacle) {
+//    // this is the first obstacle
+//    previousObstacleXPosition = firstObstaclePosition;
+//  }
+//
+//  Obstacle *obstacle = (Obstacle *)[CCBReader load:@"Obstacle"];
+//  obstacle.position = ccp(previousObstacleXPosition + distanceBetweenObstacles, 0);
+//  [obstacle setupRandomPosition];
+//  obstacle.zOrder = DrawingOrderPipes;
+//  [_physicsNode addChild:obstacle];
+//  [_obstacles addObject:obstacle];  // _obstacles is a collection
+//}
 
 #pragma mark - enemy Spawning
 
@@ -348,6 +360,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     }
 
     Enemy *enemy = (Enemy *) [CCBReader load:enemyType];
+//    enemy.physicsBody.collisionType=@"enemy";   // why can't I set this with the class: did load from ccb
     enemy.position = ccp(previousEnemyXPosition + distanceBetweenObstacles, 0);
     [enemy setupRandomPositionWith: enemyType];
     enemy.zOrder = DrawingOrderPipes;
@@ -475,29 +488,41 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         }
     }
 
-  NSMutableArray *offScreenObstacles = nil;
-
-  for (CCNode *obstacle in _obstacles) {
-    CGPoint obstacleWorldPosition = [_physicsNode convertToWorldSpace:obstacle.position];
-    CGPoint obstacleScreenPosition = [self convertToNodeSpace:obstacleWorldPosition];
-    if (obstacleScreenPosition.x < -obstacle.contentSize.width) {
-      if (!offScreenObstacles) {
-        offScreenObstacles = [NSMutableArray array];
-      }
-      [offScreenObstacles addObject:obstacle];
-    }
-  }
-
-  for (CCNode *obstacleToRemove in offScreenObstacles) {
-    [obstacleToRemove removeFromParent];
-    [_obstacles removeObject:obstacleToRemove];
-    // for each removed obstacle, add a new one
-    [self spawnNewObstacle];
-  }
+//  NSMutableArray *offScreenObstacles = nil;
+//
+//  for (CCNode *obstacle in _obstacles) {
+//    CGPoint obstacleWorldPosition = [_physicsNode convertToWorldSpace:obstacle.position];
+//    CGPoint obstacleScreenPosition = [self convertToNodeSpace:obstacleWorldPosition];
+//    if (obstacleScreenPosition.x < -obstacle.contentSize.width) {
+//      if (!offScreenObstacles) {
+//        offScreenObstacles = [NSMutableArray array];
+//      }
+//      [offScreenObstacles addObject:obstacle];
+//    }
+//  }
+//
+//  for (CCNode *obstacleToRemove in offScreenObstacles) {
+//    [obstacleToRemove removeFromParent];
+//    [_obstacles removeObject:obstacleToRemove];
+//    // for each removed obstacle, add a new one
+//    [self spawnNewObstacle];
+//  }
     
     [self tryRemove:Enemy1 From:_enemies1];
     [self tryRemove:Enemy2 From:_enemies2];   
 
+}
+
+- (void) tryRemoveEnemy: (Enemy*) enemy{
+    NSMutableArray* enemies;
+    if([enemy.myType isEqualToString:Enemy1]){
+        enemies = _enemies1;
+    }else if([enemy.myType isEqualToString:Enemy2]){
+        enemies = _enemies2;
+    }
+    [enemy removeFromParent];
+    [enemies removeObject:enemy];
+    [self spawnNewEnemyWith:enemy.myType and:enemies];
 }
 
 
