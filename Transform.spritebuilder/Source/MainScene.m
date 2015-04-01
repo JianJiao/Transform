@@ -98,7 +98,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     atLower = @"lower";
     
     Enemy1 = @"Enemy1";
-    Enemy2 = @"Enmey2";
+    Enemy2 = @"Enemy2";
     
     downGravity = ccp(0.0, -300.0);
     upGravity = ccp(0.0, 300);
@@ -111,20 +111,20 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _hero.physicsBody.collisionType = @"hero";
     _hero.zOrder = DrawingOrdeHero;
 
-  _obstacles = [NSMutableArray array];
-  [self spawnNewObstacle];
-  [self spawnNewObstacle];
-  [self spawnNewObstacle];
+//  _obstacles = [NSMutableArray array];
+//  [self spawnNewObstacle];
+//  [self spawnNewObstacle];
+//  [self spawnNewObstacle];
     
-//    _enemies1 = [NSMutableArray array];
-//    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
-//    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
-//    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
-//
-//    _enemies2 = [NSMutableArray array];
-//    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
-//    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
-//    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
+    _enemies1 = [NSMutableArray array];
+    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
+    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
+    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
+
+    _enemies2 = [NSMutableArray array];
+    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
+    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
+    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
 }
 
 
@@ -376,7 +376,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         [objToRemove removeFromParent];
         [objs removeObject:objToRemove];
         // for each removed obstacle, add a new one
-//        [self spawnNewEnemyWith: enemyType and: objs];
+        [self spawnNewEnemyWith: enemyType and: objs];
     }
 }
 
@@ -495,8 +495,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [self spawnNewObstacle];
   }
     
-//    [self tryRemove:Enemy1 From:_enemies1];
-//    [self tryRemove:Enemy2 From:_enemies2];   
+    [self tryRemove:Enemy1 From:_enemies1];
+    [self tryRemove:Enemy2 From:_enemies2];   
 
 }
 
