@@ -13,7 +13,7 @@
 }
 
 - (void)didLoadFromCCB {
-    myType = @"Enemy2";
+    self.myType = @"Enemy2";
     self.physicsBody.collisionType = @"enemy";
     self.physicsBody.sensor = YES;
 }

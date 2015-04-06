@@ -38,6 +38,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSMutableArray *_obstacles;
     NSMutableArray *_enemies1;
     NSMutableArray *_enemies2;
+    NSMutableArray *_missiles;
 
     CCButton *_restartButton;
 
@@ -114,7 +115,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //  [self spawnNewObstacle];
 //  [self spawnNewObstacle];
 //  [self spawnNewObstacle];
-    
+    _missiles = [NSMutableArray array];
     _enemies1 = [NSMutableArray array];
     [self spawnNewEnemyWith:Enemy1 and:_enemies1];
     [self spawnNewEnemyWith:Enemy1 and:_enemies1];
@@ -186,6 +187,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     //CGPoint launchDirection = ccp(2, 0);
     CGPoint force = ccpMult(launchDirection, 50);
     [missile.physicsBody applyForce:force];
+    [_missiles addObject:missile];
+    //NSLog(@"initial array: %@", _missiles);
 }
 
 - (CGPoint) getDirectionWith: (CGPoint) touchPosition{
@@ -230,9 +233,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile enemy:(CCNode *)enemy {
-    NSLog(@"collision detected");
-//    Enemy *en = (Enemy *) enemy;
-//    [self tryRemoveEnemy:en];
+    Enemy *en = (Enemy *) enemy;
+    [missile removeFromParent];
+    [self tryRemoveEnemy:en];
     return YES;
 }
 
@@ -361,23 +364,24 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
     Enemy *enemy = (Enemy *) [CCBReader load:enemyType];
 //    enemy.physicsBody.collisionType=@"enemy";   // why can't I set this with the class: did load from ccb
+
     enemy.position = ccp(previousEnemyXPosition + distanceBetweenObstacles, 0);
     [enemy setupRandomPositionWith: enemyType];
     enemy.zOrder = DrawingOrderPipes;
     [_physicsNode addChild:enemy];
     [enemies addObject:enemy];  // _obstacles is a collection
+                                // keep reference to each enemy in a collection
 }
 
 
-
-
-
-- (void) tryRemove: (NSString*) enemyType From: (NSMutableArray*) objs{
+- (NSMutableArray*) findOffscreenObjsInArray: (NSMutableArray*) objs{
     NSMutableArray *offScreenObjs = nil;
-    
     for (CCNode *obj in objs) {
         CGPoint objWorldPosition = [_physicsNode convertToWorldSpace:obj.position];
         CGPoint objScreenPosition = [self convertToNodeSpace:objWorldPosition];
+        // why the content size?
+        // because we use the left corner of the node as the anchor. Only when the left corner
+        // is one complete width off the screen, the whole node is off screen
         if (objScreenPosition.x < -obj.contentSize.width) {
             if (!offScreenObjs) {
                 offScreenObjs = [NSMutableArray array];
@@ -385,6 +389,13 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
             [offScreenObjs addObject:obj];
         }
     }
+    return offScreenObjs;
+}
+
+
+- (void) tryRemove: (NSString*) enemyType From: (NSMutableArray*) objs{
+    NSMutableArray *offScreenObjs = nil;
+    offScreenObjs = [self findOffscreenObjsInArray:objs];
     for (CCNode *objToRemove in offScreenObjs) {
         [objToRemove removeFromParent];
         [objs removeObject:objToRemove];
@@ -507,12 +518,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //    // for each removed obstacle, add a new one
 //    [self spawnNewObstacle];
 //  }
-    
+    // remove all offscreen enemies
     [self tryRemove:Enemy1 From:_enemies1];
-    [self tryRemove:Enemy2 From:_enemies2];   
+    [self tryRemove:Enemy2 From:_enemies2];
+    [self tryRemoveMissiles];
 
 }
 
+// just remove the selected enemy
 - (void) tryRemoveEnemy: (Enemy*) enemy{
     NSMutableArray* enemies;
     if([enemy.myType isEqualToString:Enemy1]){
@@ -523,6 +536,37 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [enemy removeFromParent];
     [enemies removeObject:enemy];
     [self spawnNewEnemyWith:enemy.myType and:enemies];
+}
+
+- (void) tryRemoveMissiles{
+    NSMutableArray *offScreenObjs = nil;
+   // NSLog(@"array: %@", _missiles);
+    offScreenObjs = [self findOffscreenMissilesInArray:_missiles];
+    for (CCNode *objToRemove in offScreenObjs) {
+        [objToRemove removeFromParent];
+        [_missiles removeObject:objToRemove];
+    }
+
+}
+
+// missiles are different, you should check the right side and the left side
+- (NSMutableArray*) findOffscreenMissilesInArray: (NSMutableArray*) objs{
+    NSMutableArray *offScreenObjs = nil;
+    for (CCNode *obj in objs) {
+        CGPoint objWorldPosition = [_physicsNode convertToWorldSpace:obj.position];
+        CGPoint objScreenPosition = [self convertToNodeSpace:objWorldPosition];
+        // why the content size?
+        // because we use the left corner of the node as the anchor. Only when the left corner
+        // is one complete width off the screen, the whole node is off screen
+
+        if (objScreenPosition.x < -obj.contentSize.width || objScreenPosition.x > 250) {
+            if (!offScreenObjs) {
+                offScreenObjs = [NSMutableArray array];
+            }
+            [offScreenObjs addObject:obj];
+        }
+    }
+    return offScreenObjs;
 }
 
 
