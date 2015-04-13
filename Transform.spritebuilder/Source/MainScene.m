@@ -11,6 +11,10 @@
 #import "Hero.h"
 #import "Missile.h"
 #import "Enemy.h"
+#import "Enemy1.h"
+#import "Enemy2.h"
+#import "Rock.h"
+
 
 static const CGFloat firstEnemyPosition = 280.f;
 static const CGFloat distanceBetweenObstacles = 160.f;
@@ -26,13 +30,16 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     Missile *_missile;
     
     CCPhysicsNode *_physicsNode;
+    CCNode* _movingNode;
 
     CCNode *_ground1, *_ground2, *_ground3, *_ground4,*_ground5, *_ground6;
+    CCNode *_ocean0, *_ocean1;
 
     NSArray *_grounds0, *_grounds1, *_grounds2;
+    NSArray *_oceans;
 
     NSTimeInterval _sinceTouch;
-    NSTimeInterval _sinceHit;
+    NSTimeInterval _sinceHit, _sinceLoad;
     
 
     NSMutableArray *_obstacles;
@@ -44,7 +51,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
     BOOL _gameOver;
 
-    CGFloat _scrollSpeed;
+    CGFloat _scrollSpeed0, _scrollSpeed1;
 
     NSInteger _points;
     CCLabelTTF *_scoreLabel;
@@ -56,8 +63,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSString *atUpper;
     NSString *atLower;
     
-    NSString *Enemy1;
-    NSString *Enemy2;
+    NSString *enemy1;
+    NSString *enemy2;
     
     CGPoint downGravity, upGravity;
     
@@ -67,13 +74,16 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (void)didLoadFromCCB {
-  _scrollSpeed = 80.f;
+    _scrollSpeed0 = 80.f;
+    _scrollSpeed1 = 40.f;
+    _sinceLoad = 0.f;
   self.userInteractionEnabled = YES;
 
     _grounds0 = @[_ground1, _ground2];
     _grounds1 = @[_ground3, _ground4];
     _grounds2 = @[_ground5, _ground6];
-
+    _oceans = @[_ocean0, _ocean1];
+    
     // lower limit
     for (CCNode *ground in _grounds0) {
         // set collision type
@@ -97,11 +107,11 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     atUpper = @"upper";
     atLower = @"lower";
     
-    Enemy1 = @"Enemy1";
-    Enemy2 = @"Enemy2";
+    enemy1 = @"Enemy1";
+    enemy2 = @"Enemy2";
     
-    downGravity = ccp(0.0, -300.0);
-    upGravity = ccp(0.0, 300);
+    downGravity = ccp(0.0, -100.0);
+    upGravity = ccp(0.0, 100);
 
 
 
@@ -117,14 +127,16 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //  [self spawnNewObstacle];
     _missiles = [NSMutableArray array];
     _enemies1 = [NSMutableArray array];
-    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
-    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
-    [self spawnNewEnemyWith:Enemy1 and:_enemies1];
+    [self spawnNewEnemyWith:enemy1 and:_enemies1];
+    [self spawnNewEnemyWith:enemy1 and:_enemies1];
+    [self spawnNewEnemyWith:enemy1 and:_enemies1];
 
     _enemies2 = [NSMutableArray array];
-    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
-    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
-    [self spawnNewEnemyWith:Enemy2 and:_enemies2];
+    [self spawnNewEnemyWith:enemy2 and:_enemies2];
+    [self spawnNewEnemyWith:enemy2 and:_enemies2];
+    [self spawnNewEnemyWith:enemy2 and:_enemies2];
+    
+    
 }
 
 
@@ -151,10 +163,10 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
               [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
           }else if([charPosition isEqualToString:atLower]){
               // if at lower space, apply downward force
-              [_hero.physicsBody applyImpulse:ccp(0, -300.f)];
+              [_hero.physicsBody applyImpulse:ccp(0, -130.f)];
           }else if([charPosition isEqualToString:atUpper]){
               // if at upper space, apply upward force
-              [_hero.physicsBody applyImpulse:ccp(0, 300.f)];
+              [_hero.physicsBody applyImpulse:ccp(0, 130.f)];
           }else if([charPosition isEqualToString:atRoof] && _sinceHit>1.0f){
               // if at roof, jump down and reverse gravity
               // reset roof collision type to allow event handling
@@ -234,6 +246,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile enemy:(CCNode *)enemy {
     Enemy *en = (Enemy *) enemy;
+    if(!en.myType){
+        NSLog(@"oh shit! null!");
+    }
     [missile removeFromParent];
     [self tryRemoveEnemy:en];
     return YES;
@@ -308,9 +323,10 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void)gameOver {
   if (!_gameOver) {
-    _scrollSpeed = 0.f;
-    _gameOver = YES;
-    _restartButton.visible = YES;
+      _scrollSpeed0 = 0.f;
+      _scrollSpeed1 = 0.f;
+      _gameOver = YES;
+      _restartButton.visible = YES;
 
     _hero.rotation = 90.f;
     _hero.physicsBody.allowsRotation = NO;
@@ -353,24 +369,29 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 #pragma mark - enemy Spawning
 
 - (void)spawnNewEnemyWith: (NSString*) enemyType and: (NSMutableArray*) enemies{
-    
-    CCNode *previousEnemy = [enemies lastObject];
-    CGFloat previousEnemyXPosition = previousEnemy.position.x;
-    
-    if (!previousEnemy) {
-        // this is the first obstacle
-        previousEnemyXPosition = firstEnemyPosition;
+    if(!enemyType){
+        NSLog(@"this seems impossible");
+    }else{
+        CCNode *previousEnemy = [enemies lastObject];
+        CGFloat previousEnemyXPosition = previousEnemy.position.x;
+        
+        if (!previousEnemy) {
+            // this is the first obstacle
+            previousEnemyXPosition = firstEnemyPosition;
+        }
+        
+        Enemy *enemy = (Enemy *) [CCBReader load:enemyType];
+        //    enemy.physicsBody.collisionType=@"enemy";   // why can't I set this with the class: did load from ccb
+        if(!enemy.myType){
+            NSLog(@"the new one is not correct");
+        }
+        enemy.position = ccp(previousEnemyXPosition + distanceBetweenObstacles, 0);
+        [enemy setupRandomPositionWith: enemyType];
+        enemy.zOrder = DrawingOrderPipes;
+        [_physicsNode addChild:enemy];
+        [enemies addObject:enemy];  // _obstacles is a collection
+        // keep reference to each enemy in a collection
     }
-
-    Enemy *enemy = (Enemy *) [CCBReader load:enemyType];
-//    enemy.physicsBody.collisionType=@"enemy";   // why can't I set this with the class: did load from ccb
-
-    enemy.position = ccp(previousEnemyXPosition + distanceBetweenObstacles, 0);
-    [enemy setupRandomPositionWith: enemyType];
-    enemy.zOrder = DrawingOrderPipes;
-    [_physicsNode addChild:enemy];
-    [enemies addObject:enemy];  // _obstacles is a collection
-                                // keep reference to each enemy in a collection
 }
 
 
@@ -395,6 +416,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void) tryRemove: (NSString*) enemyType From: (NSMutableArray*) objs{
     NSMutableArray *offScreenObjs = nil;
+    if(!enemyType){
+        NSLog(@"null! dude, another one");
+    }
     offScreenObjs = [self findOffscreenObjsInArray:objs];
     for (CCNode *objToRemove in offScreenObjs) {
         [objToRemove removeFromParent];
@@ -427,37 +451,74 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //}
 
 
+#pragma mark - spawnRock
+- (void) spawnRock{
+    Rock *rock = (Rock *) [CCBReader load:@"Rock"];
+}
+
+//
+//#pragma mark - enemy Spawning
+//
+//- (void)spawnNewEnemyWith: (NSString*) enemyType and: (NSMutableArray*) enemies{
+//    if(!enemyType){
+//        NSLog(@"this seems impossible");
+//    }else{
+//        CCNode *previousEnemy = [enemies lastObject];
+//        CGFloat previousEnemyXPosition = previousEnemy.position.x;
+//        
+//        if (!previousEnemy) {
+//            // this is the first obstacle
+//            previousEnemyXPosition = firstEnemyPosition;
+//        }
+//        
+//        Enemy *enemy = (Enemy *) [CCBReader load:enemyType];
+//        //    enemy.physicsBody.collisionType=@"enemy";   // why can't I set this with the class: did load from ccb
+//        if(!enemy.myType){
+//            NSLog(@"the new one is not correct");
+//        }
+//        enemy.position = ccp(previousEnemyXPosition + distanceBetweenObstacles, 0);
+//        [enemy setupRandomPositionWith: enemyType];
+//        enemy.zOrder = DrawingOrderPipes;
+//        [_physicsNode addChild:enemy];
+//        [enemies addObject:enemy];  // _obstacles is a collection
+//        // keep reference to each enemy in a collection
+//    }
+//}
+
+
 #pragma mark - Update
 
 - (void)update:(CCTime)delta {
   // clamp velocity
     if([charPosition isEqualToString:atUpper] || [charPosition isEqualToString:atRoof]){
-        yVelocity = clampf(_hero.physicsBody.velocity.y, -1*MAXFLOAT, 100.f);
+        yVelocity = clampf(_hero.physicsBody.velocity.y, -1*MAXFLOAT, 60.f);
     }else{
-        yVelocity = clampf(_hero.physicsBody.velocity.y, -100.f, MAXFLOAT);
+        yVelocity = clampf(_hero.physicsBody.velocity.y, -60.f, MAXFLOAT);
     }
     
-  _hero.physicsBody.velocity = ccp(0, yVelocity);
-  _hero.position = ccp(_hero.position.x + delta * _scrollSpeed, _hero.position.y);
+    _hero.physicsBody.velocity = ccp(0, yVelocity);
+    _hero.position = ccp(_hero.position.x + delta * _scrollSpeed0, _hero.position.y);
+    
 
     // update the timers
     _sinceTouch += delta;
     _sinceHit += delta;
+    _sinceLoad +=delta;
+    if(_sinceLoad >= 2.0f){
+        [self spawnRock];
+    }
     
 
-  _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
+    _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
 
   if (_hero.physicsBody.allowsRotation) {
     float angularVelocity = clampf(_hero.physicsBody.angularVelocity, -2.f, 1.f);
     _hero.physicsBody.angularVelocity = angularVelocity;
   }
 
-//  if ((_sinceTouch > 0.5f)) {
-//    [_hero.physicsBody applyAngularImpulse:-40000.f*delta];
-//  }
 
-    _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed *delta), _physicsNode.position.y);
-    //NSLog(@"%@", NSStringFromCGPoint(_physicsNode.position));
+    _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed0 *delta), _physicsNode.position.y);
+    _movingNode.position = ccp(_movingNode.position.x - (_scrollSpeed1 *delta),_movingNode.position.y);
 
 
     // todo: optimize the repeated code
@@ -498,29 +559,20 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
             ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
         }
     }
-
-//  NSMutableArray *offScreenObstacles = nil;
-//
-//  for (CCNode *obstacle in _obstacles) {
-//    CGPoint obstacleWorldPosition = [_physicsNode convertToWorldSpace:obstacle.position];
-//    CGPoint obstacleScreenPosition = [self convertToNodeSpace:obstacleWorldPosition];
-//    if (obstacleScreenPosition.x < -obstacle.contentSize.width) {
-//      if (!offScreenObstacles) {
-//        offScreenObstacles = [NSMutableArray array];
-//      }
-//      [offScreenObstacles addObject:obstacle];
-//    }
-//  }
-//
-//  for (CCNode *obstacleToRemove in offScreenObstacles) {
-//    [obstacleToRemove removeFromParent];
-//    [_obstacles removeObject:obstacleToRemove];
-//    // for each removed obstacle, add a new one
-//    [self spawnNewObstacle];
-//  }
-    // remove all offscreen enemies
-    [self tryRemove:Enemy1 From:_enemies1];
-    [self tryRemove:Enemy2 From:_enemies2];
+    
+    // loop the oceans
+    for (CCNode *ocean in _oceans) {
+        // get the world position of the ground
+        CGPoint groundWorldPosition = [_movingNode convertToWorldSpace:ocean.position];
+        // get the screen position of the ground
+        CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+        // if the left corner is one complete width off the screen, move it to the right
+        if (groundScreenPosition.x <= (-1 * ocean.contentSize.width)) {
+            ocean.position = ccp(ocean.position.x + 2 * ocean.contentSize.width, ocean.position.y);
+        }
+    }
+    [self tryRemove:enemy1 From:_enemies1];
+    [self tryRemove:enemy2 From:_enemies2];
     [self tryRemoveMissiles];
 
 }
@@ -528,14 +580,18 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 // just remove the selected enemy
 - (void) tryRemoveEnemy: (Enemy*) enemy{
     NSMutableArray* enemies;
-    if([enemy.myType isEqualToString:Enemy1]){
+    NSString *theType = enemy.myType;
+    if(!theType){
+        NSLog(@"null, problem here");
+    }
+    if([theType isEqualToString:enemy1]){
         enemies = _enemies1;
-    }else if([enemy.myType isEqualToString:Enemy2]){
+    }else if([theType isEqualToString:enemy2]){
         enemies = _enemies2;
     }
     [enemy removeFromParent];
     [enemies removeObject:enemy];
-    [self spawnNewEnemyWith:enemy.myType and:enemies];
+    [self spawnNewEnemyWith:theType and:enemies];
 }
 
 - (void) tryRemoveMissiles{

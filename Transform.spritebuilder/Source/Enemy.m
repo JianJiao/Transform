@@ -17,10 +17,6 @@ static const CGFloat range = 275.f;
 static const CGFloat start = 288.f;
 
 
-- (void)didLoadFromCCB {
-    self.physicsBody.collisionType = @"enemy";
-    self.physicsBody.sensor = YES;
-}
 
 - (void)setupRandomPositionWith: (NSString*) enemyType {
     CGFloat random1= ((double)arc4random() / ARC4RANDOM_MAX);

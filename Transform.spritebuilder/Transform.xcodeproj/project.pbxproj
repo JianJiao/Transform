@@ -12,6 +12,7 @@
 		538035711ACA455800661980 /* Enemy2.m in Sources */ = {isa = PBXBuildFile; fileRef = 538035701ACA455800661980 /* Enemy2.m */; };
 		5382DAE21AB7F39400DF2D6F /* Hero.m in Sources */ = {isa = PBXBuildFile; fileRef = 5382DAE11AB7F39400DF2D6F /* Hero.m */; };
 		539481BC1AC7B1F800E2654B /* Missile.m in Sources */ = {isa = PBXBuildFile; fileRef = 539481BB1AC7B1F800E2654B /* Missile.m */; };
+		53FE13381ADB3BE300D9BA13 /* Rock.m in Sources */ = {isa = PBXBuildFile; fileRef = 53FE13371ADB3BE300D9BA13 /* Rock.m */; };
 		62188DB118A9D328004F3218 /* Obstacle.m in Sources */ = {isa = PBXBuildFile; fileRef = 62188DB018A9D328004F3218 /* Obstacle.m */; };
 		62188DB518AA0A6B004F3218 /* Goal.m in Sources */ = {isa = PBXBuildFile; fileRef = 62188DB418AA0A6B004F3218 /* Goal.m */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
@@ -87,6 +88,8 @@
 		5382DAE11AB7F39400DF2D6F /* Hero.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero.m; path = Source/Hero.m; sourceTree = "<group>"; };
 		539481BA1AC7B1F800E2654B /* Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Missile.h; path = Source/Missile.h; sourceTree = "<group>"; };
 		539481BB1AC7B1F800E2654B /* Missile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Missile.m; path = Source/Missile.m; sourceTree = "<group>"; };
+		53FE13361ADB3BE300D9BA13 /* Rock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rock.h; path = Source/Rock.h; sourceTree = "<group>"; };
+		53FE13371ADB3BE300D9BA13 /* Rock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rock.m; path = Source/Rock.m; sourceTree = "<group>"; };
 		62188DAF18A9D328004F3218 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obstacle.h; path = Source/Obstacle.h; sourceTree = "<group>"; };
 		62188DB018A9D328004F3218 /* Obstacle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Obstacle.m; path = Source/Obstacle.m; sourceTree = "<group>"; };
 		62188DB318AA0A6B004F3218 /* Goal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Goal.h; path = Source/Goal.h; sourceTree = "<group>"; };
@@ -178,6 +181,8 @@
 				5380356D1ACA454700661980 /* Enemy1.m */,
 				5380356F1ACA455800661980 /* Enemy2.h */,
 				538035701ACA455800661980 /* Enemy2.m */,
+				53FE13361ADB3BE300D9BA13 /* Rock.h */,
+				53FE13371ADB3BE300D9BA13 /* Rock.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -395,6 +400,7 @@
 				539481BC1AC7B1F800E2654B /* Missile.m in Sources */,
 				62188DB118A9D328004F3218 /* Obstacle.m in Sources */,
 				538035711ACA455800661980 /* Enemy2.m in Sources */,
+				53FE13381ADB3BE300D9BA13 /* Rock.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				5380356E1ACA454700661980 /* Enemy1.m in Sources */,
 			);
