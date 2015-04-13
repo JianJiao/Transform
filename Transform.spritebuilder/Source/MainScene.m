@@ -32,7 +32,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     CCPhysicsNode *_physicsNode;
     CCNode* _movingNode;
 
-    CCNode *_ground1, *_ground2, *_ground3, *_ground4,*_ground5, *_ground6;
+    CCNode *_ground1, *_ground2, *_ground3, *_ground4,*_ground5, *_ground6, *_ground7;
     CCNode *_ocean0, *_ocean1;
 
     NSArray *_grounds0, *_grounds1, *_grounds2;
@@ -254,6 +254,22 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     return YES;
 }
 
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero rock:(CCNode *)rock {
+    [self gameOver];
+    return YES;
+}
+
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile wildcard: (CCNode *) anything{
+    [self tryRemoveTheMissile: missile];
+    return YES;
+}
+
+- (void) tryRemoveTheMissile: (CCNode*) missile{
+    [missile removeFromParent];
+}
+
+
+
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero roof:(CCNode *)roof {
     
     
@@ -317,6 +333,13 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
   _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
 
   return YES;
+}
+
+
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair barrier:(CCNode *)barrier wildcard:(CCNode *)anything {
+    [anything removeFromParent];
+    NSLog(@"collision detected");
+    return YES;
 }
 
 #pragma mark - Game Actions
@@ -454,6 +477,11 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 #pragma mark - spawnRock
 - (void) spawnRock{
     Rock *rock = (Rock *) [CCBReader load:@"Rock"];
+    float anchorX = _hero.position.x + 200;
+    rock.position = ccp(anchorX, 0);
+    [rock setupRandomPosition];
+    rock.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:rock];
 }
 
 //
@@ -498,6 +526,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     
     _hero.physicsBody.velocity = ccp(0, yVelocity);
     _hero.position = ccp(_hero.position.x + delta * _scrollSpeed0, _hero.position.y);
+    _ground7.position = ccp(_ground7.position.x + delta * _scrollSpeed0, -5);
     
 
     // update the timers
@@ -506,6 +535,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _sinceLoad +=delta;
     if(_sinceLoad >= 2.0f){
         [self spawnRock];
+        _sinceLoad = 0.f;
     }
     
 
@@ -605,6 +635,10 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 }
 
+- (void) tryRemoveRock:(CCNode *) rock{
+    [rock removeFromParent];
+}
+
 // missiles are different, you should check the right side and the left side
 - (NSMutableArray*) findOffscreenMissilesInArray: (NSMutableArray*) objs{
     NSMutableArray *offScreenObjs = nil;
@@ -615,7 +649,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         // because we use the left corner of the node as the anchor. Only when the left corner
         // is one complete width off the screen, the whole node is off screen
 
-        if (objScreenPosition.x < -obj.contentSize.width || objScreenPosition.x > 250) {
+        if (objScreenPosition.x < -obj.contentSize.width || objScreenPosition.x > 300) {
             if (!offScreenObjs) {
                 offScreenObjs = [NSMutableArray array];
             }

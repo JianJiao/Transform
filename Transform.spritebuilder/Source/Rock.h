@@ -9,5 +9,7 @@
 #import "Enemy.h"
 
 @interface Rock : Enemy
+- (void) setupRandomPosition;
+- (void) anotherMethod;
 
 @end

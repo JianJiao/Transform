@@ -27,4 +27,5 @@ static const CGFloat start = 288.f;
     }else if ([enemyType isEqualToString:@"Enemy1"]){
         self.position = ccp(self.position.x,10+ random1*range);
     }
-}@end
+}
+@end
