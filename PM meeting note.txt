@@ -1,6 +1,7 @@
 PM meeting note:
 
 WEEK 1: Finish all animations for the hero and logic. check!
+
 1. find all four sets of sprites for four kinds of animations
 2. when the hero is on the ground, select the human being animation  —check
 3. when the hero is in the lower space, select the fish animation    —check
@@ -26,6 +27,7 @@ WEEK 2: Add enemies and bombs
 
 
 WEEK 3: Add interactions between parts
+
 1. add collision between bomb and enemy
   * clean up obstacles
   * remove missiles when collision happens
@@ -37,10 +39,25 @@ WEEK 3: Add interactions between parts
   * find and solve the setValue null bug
 
 
+WEEK 4: fix bugs and polish game
 
+1. deal with the collision pair myType null exception √
+2. change background img √
+3. tune the y velocity of different parts √
+4. add new enemies that are not destroyable √
+  * rocks as the sprites 
+  * spawn rocks in a fixed intervals
+5. rock collision with hero √
+6. missile collision with anything √
+7. remove offscreen rocks? √
+8. add barrier to remove rocks?  √
 
-WEEK 4: Polish the game.
+WEEK 5: add bonus and better effects
 
-WEEK 5: Test the game on different inputs.
+1. particle effect
+2. shooting from the big bird
+3. bullet collision with hero
+4. remove off screen bullets?
+5. modify the clouds
 
 WEEK 6: Fix and release the game.

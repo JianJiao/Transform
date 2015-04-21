@@ -160,6 +160,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
                   ground.physicsBody.collisionType = @"level";
               }
               charPosition = atLower;
+              // load particle effect
+              CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
+              // make the particle effect clean itself up, once it is completed
+              explosion.autoRemoveOnFinish = TRUE;
+              // place the particle effect on the seals position
+              explosion.position = _hero.position;
+              // add the particle effect to the same node the missile is on
+              [_hero.parent addChild:explosion];
               [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
           }else if([charPosition isEqualToString:atLower]){
               // if at lower space, apply downward force
@@ -179,6 +187,13 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
                   ground.physicsBody.collisionType = @"roof";
               }
               charPosition = atUpper;
+              // load particle effect
+              CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toAngel"];
+              // make the particle effect clean itself up, once it is completed
+              explosion.autoRemoveOnFinish = TRUE;
+              // place the particle effect on the seals position
+              explosion.position = ccp(_hero.position.x + 24.0f, _hero.position.y);
+              [_hero.parent addChild:explosion];
               [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
           }
       }else{
@@ -197,7 +212,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [_physicsNode addChild:missile];
     CGPoint launchDirection = [self getDirectionWith:touchPosition];
     //CGPoint launchDirection = ccp(2, 0);
-    CGPoint force = ccpMult(launchDirection, 50);
+    CGPoint force = ccpMult(launchDirection, 60);
     [missile.physicsBody applyForce:force];
     [_missiles addObject:missile];
     //NSLog(@"initial array: %@", _missiles);
@@ -232,6 +247,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         ground.physicsBody.collisionType = @"noMatch";
     }
     
+    // load particle effect
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
+    // make the particle effect clean itself up, once it is completed
+    explosion.autoRemoveOnFinish = TRUE;
+    // place the particle effect on the seals position
+    explosion.position = hero.position;
+    // add the particle effect to the same node the missile is on
+    [hero.parent addChild:explosion];
     // become a handsome young man again
     [_hero performSelector:@selector(startHuman) withObject:nil afterDelay:0.f];
 
@@ -249,7 +272,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     if(!en.myType){
         NSLog(@"oh shit! null!");
     }
-    [missile removeFromParent];
+    [self tryRemoveTheMissile: missile];
     [self tryRemoveEnemy:en];
     return YES;
 }
@@ -265,6 +288,16 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 }
 
 - (void) tryRemoveTheMissile: (CCNode*) missile{
+    // load particle effect
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
+    // make the particle effect clean itself up, once it is completed
+    explosion.autoRemoveOnFinish = TRUE;
+    // place the particle effect on the seals position
+    explosion.position = missile.position;
+    // add the particle effect to the same node the missile is on
+    [missile.parent addChild:explosion];
+    
+    // finally, remove the destroyed missile
     [missile removeFromParent];
 }
 
@@ -291,11 +324,20 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         ground.physicsBody.collisionType = @"noMatch";
     }
     
+    // load particle effect
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toAngel"];
+    // make the particle effect clean itself up, once it is completed
+    explosion.autoRemoveOnFinish = TRUE;
+    // place the particle effect on the seals position
+    explosion.position = ccp(hero.position.x + 24.0f, hero.position.y);
+    [hero.parent addChild:explosion];
+
     //become a cute angel
     [_hero performSelector:@selector(startAngel) withObject:nil afterDelay:0.f];
     
     return YES;
 }
+
 
 
 - (BOOL)ccPhysicsCollisionSeparate:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero middle:(CCNode *)middle{
@@ -308,6 +350,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         _physicsNode.gravity = downGravity;
         charPosition = atUpper;
         [_hero performSelector:@selector(startBird) withObject:nil afterDelay:0.f];
+        
+        // load particle effect
+        CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toFish"];
+        // make the particle effect clean itself up, once it is completed
+        explosion.autoRemoveOnFinish = TRUE;
+        // place the particle effect on the seals position
+        explosion.position = ccp(hero.position.x + 24.0f, hero.position.y);
+        [hero.parent addChild:explosion];
 
 
     }else{
@@ -318,6 +368,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         charPosition = atLower;
         [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
         
+        // load particle effect
+        CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toFish"];
+        // make the particle effect clean itself up, once it is completed
+        explosion.autoRemoveOnFinish = TRUE;
+        // place the particle effect on the seals position
+        explosion.position = ccp(hero.position.x + 24.0f, hero.position.y);
+        [hero.parent addChild:explosion];
+
 
         
     }
