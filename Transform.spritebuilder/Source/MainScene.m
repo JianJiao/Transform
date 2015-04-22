@@ -161,7 +161,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
               }
               charPosition = atLower;
               // load particle effect
-              CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
+              CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toHuman"];
               // make the particle effect clean itself up, once it is completed
               explosion.autoRemoveOnFinish = TRUE;
               // place the particle effect on the seals position
@@ -248,7 +248,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     }
     
     // load particle effect
-    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toHuman"];
     // make the particle effect clean itself up, once it is completed
     explosion.autoRemoveOnFinish = TRUE;
     // place the particle effect on the seals position
