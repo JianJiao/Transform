@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		536062901AE71FDB00B5A3AA /* Bonus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5360628F1AE71FDB00B5A3AA /* Bonus.m */; };
+		536062961AE7208E00B5A3AA /* WaterBonus.m in Sources */ = {isa = PBXBuildFile; fileRef = 536062951AE7208E00B5A3AA /* WaterBonus.m */; };
+		536062991AE720BE00B5A3AA /* SkyBonus.m in Sources */ = {isa = PBXBuildFile; fileRef = 536062981AE720BE00B5A3AA /* SkyBonus.m */; };
 		538035681ACA3CA700661980 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = 538035671ACA3CA700661980 /* Enemy.m */; };
 		5380356E1ACA454700661980 /* Enemy1.m in Sources */ = {isa = PBXBuildFile; fileRef = 5380356D1ACA454700661980 /* Enemy1.m */; };
 		538035711ACA455800661980 /* Enemy2.m in Sources */ = {isa = PBXBuildFile; fileRef = 538035701ACA455800661980 /* Enemy2.m */; };
@@ -78,6 +81,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5360628E1AE71FDB00B5A3AA /* Bonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bonus.h; path = Source/Bonus.h; sourceTree = "<group>"; };
+		5360628F1AE71FDB00B5A3AA /* Bonus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bonus.m; path = Source/Bonus.m; sourceTree = "<group>"; };
+		536062941AE7208E00B5A3AA /* WaterBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterBonus.h; path = Source/WaterBonus.h; sourceTree = "<group>"; };
+		536062951AE7208E00B5A3AA /* WaterBonus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterBonus.m; path = Source/WaterBonus.m; sourceTree = "<group>"; };
+		536062971AE720BE00B5A3AA /* SkyBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SkyBonus.h; path = Source/SkyBonus.h; sourceTree = "<group>"; };
+		536062981AE720BE00B5A3AA /* SkyBonus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SkyBonus.m; path = Source/SkyBonus.m; sourceTree = "<group>"; };
 		538035661ACA3CA700661980 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enemy.h; path = Source/Enemy.h; sourceTree = "<group>"; };
 		538035671ACA3CA700661980 /* Enemy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Enemy.m; path = Source/Enemy.m; sourceTree = "<group>"; };
 		5380356C1ACA454700661980 /* Enemy1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enemy1.h; path = Source/Enemy1.h; sourceTree = "<group>"; };
@@ -183,6 +192,12 @@
 				538035701ACA455800661980 /* Enemy2.m */,
 				53FE13361ADB3BE300D9BA13 /* Rock.h */,
 				53FE13371ADB3BE300D9BA13 /* Rock.m */,
+				5360628E1AE71FDB00B5A3AA /* Bonus.h */,
+				5360628F1AE71FDB00B5A3AA /* Bonus.m */,
+				536062941AE7208E00B5A3AA /* WaterBonus.h */,
+				536062951AE7208E00B5A3AA /* WaterBonus.m */,
+				536062971AE720BE00B5A3AA /* SkyBonus.h */,
+				536062981AE720BE00B5A3AA /* SkyBonus.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -397,12 +412,15 @@
 				538035681ACA3CA700661980 /* Enemy.m in Sources */,
 				B737893F1807617C0076A88C /* AppDelegate.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
+				536062991AE720BE00B5A3AA /* SkyBonus.m in Sources */,
 				539481BC1AC7B1F800E2654B /* Missile.m in Sources */,
 				62188DB118A9D328004F3218 /* Obstacle.m in Sources */,
 				538035711ACA455800661980 /* Enemy2.m in Sources */,
 				53FE13381ADB3BE300D9BA13 /* Rock.m in Sources */,
+				536062901AE71FDB00B5A3AA /* Bonus.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				5380356E1ACA454700661980 /* Enemy1.m in Sources */,
+				536062961AE7208E00B5A3AA /* WaterBonus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -61,3 +61,11 @@ WEEK 5: add bonus and better effects
 5. modify the clouds
 
 WEEK 6: Fix and release the game.
+1. bonus
+  * when shark disappears, load the diomand. 
+
+
+
+
+
+

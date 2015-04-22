@@ -14,6 +14,7 @@
 #import "Enemy1.h"
 #import "Enemy2.h"
 #import "Rock.h"
+#import "WaterBonus.h"
 
 
 static const CGFloat firstEnemyPosition = 280.f;
@@ -69,6 +70,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     CGPoint downGravity, upGravity;
     
     float yVelocity;
+    
+    int waterCount;
 }
 
 
@@ -272,10 +275,26 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     if(!en.myType){
         NSLog(@"oh shit! null!");
     }
+    CGPoint position = en.position;
     [self tryRemoveTheMissile: missile];
     [self tryRemoveEnemy:en];
+    waterCount++;
+    if(waterCount>3){
+        [self spawnWaterBonusWithPosition: position];
+        waterCount=0;
+    }
     return YES;
 }
+
+
+- (void) spawnWaterBonusWithPosition: (CGPoint) position{
+    WaterBonus *wb = (WaterBonus *) [CCBReader load:@"WaterBonus"];
+    wb.position = position;
+    wb.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:wb];
+}
+
+
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero rock:(CCNode *)rock {
     [self gameOver];
@@ -575,7 +594,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 #pragma mark - Update
 
 - (void)update:(CCTime)delta {
-  // clamp velocity
+    
+    
+    // clamp velocity
     if([charPosition isEqualToString:atUpper] || [charPosition isEqualToString:atRoof]){
         yVelocity = clampf(_hero.physicsBody.velocity.y, -1*MAXFLOAT, 60.f);
     }else{
@@ -586,82 +607,88 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _hero.position = ccp(_hero.position.x + delta * _scrollSpeed0, _hero.position.y);
     _ground7.position = ccp(_ground7.position.x + delta * _scrollSpeed0, -5);
     
-
-    // update the timers
-    _sinceTouch += delta;
-    _sinceHit += delta;
-    _sinceLoad +=delta;
-    if(_sinceLoad >= 2.0f){
-        [self spawnRock];
-        _sinceLoad = 0.f;
-    }
     
+    if(!_gameOver){
 
-    _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
-
-  if (_hero.physicsBody.allowsRotation) {
-    float angularVelocity = clampf(_hero.physicsBody.angularVelocity, -2.f, 1.f);
-    _hero.physicsBody.angularVelocity = angularVelocity;
-  }
-
-
-    _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed0 *delta), _physicsNode.position.y);
-    _movingNode.position = ccp(_movingNode.position.x - (_scrollSpeed1 *delta),_movingNode.position.y);
-
-
-    // todo: optimize the repeated code
-    // loop the lower limit
-    for (CCNode *ground in _grounds0) {
-        // get the world position of the ground
-        CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
-        // actually, world position is the screen position; there is not need to do
-        // the below conversion again
-        // get the screen position of the ground
-        CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
-
-
-        // if the left corner is one complete width off the screen, move it to the right
-        if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
-          ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+        
+        // update the timers
+        _sinceTouch += delta;
+        _sinceHit += delta;
+        _sinceLoad +=delta;
+        if(_sinceLoad >= 2.0f){
+            [self spawnRock];
+            _sinceLoad = 0.f;
         }
-    }
-    // loop the upper limit
-    for (CCNode *ground in _grounds1) {
-        // get the world position of the ground
-        CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
-        // get the screen position of the ground
-        CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
-        // if the left corner is one complete width off the screen, move it to the right
-        if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
-            ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+        
+        
+        _hero.rotation = clampf(_hero.rotation, -30.f, 90.f);
+        
+        if (_hero.physicsBody.allowsRotation) {
+            float angularVelocity = clampf(_hero.physicsBody.angularVelocity, -2.f, 1.f);
+            _hero.physicsBody.angularVelocity = angularVelocity;
         }
-    }
-    // loop the middle sensor
-    for (CCNode *ground in _grounds2) {
-        // get the world position of the ground
-        CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
-        // get the screen position of the ground
-        CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
-        // if the left corner is one complete width off the screen, move it to the right
-        if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
-            ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+        
+        
+        _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed0 *delta), _physicsNode.position.y);
+        _movingNode.position = ccp(_movingNode.position.x - (_scrollSpeed1 *delta),_movingNode.position.y);
+        
+        
+        // todo: optimize the repeated code
+        // loop the lower limit
+        for (CCNode *ground in _grounds0) {
+            // get the world position of the ground
+            CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
+            // actually, world position is the screen position; there is not need to do
+            // the below conversion again
+            // get the screen position of the ground
+            CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+            
+            
+            // if the left corner is one complete width off the screen, move it to the right
+            if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
+                ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+            }
         }
-    }
-    
-    // loop the oceans
-    for (CCNode *ocean in _oceans) {
-        // get the world position of the ground
-        CGPoint groundWorldPosition = [_movingNode convertToWorldSpace:ocean.position];
-        // get the screen position of the ground
-        CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
-        // if the left corner is one complete width off the screen, move it to the right
-        if (groundScreenPosition.x <= (-1 * ocean.contentSize.width)) {
-            ocean.position = ccp(ocean.position.x + 2 * ocean.contentSize.width, ocean.position.y);
+        // loop the upper limit
+        for (CCNode *ground in _grounds1) {
+            // get the world position of the ground
+            CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
+            // get the screen position of the ground
+            CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+            // if the left corner is one complete width off the screen, move it to the right
+            if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
+                ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+            }
         }
+        // loop the middle sensor
+        for (CCNode *ground in _grounds2) {
+            // get the world position of the ground
+            CGPoint groundWorldPosition = [_physicsNode convertToWorldSpace:ground.position];
+            // get the screen position of the ground
+            CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+            // if the left corner is one complete width off the screen, move it to the right
+            if (groundScreenPosition.x <= (-1 * ground.contentSize.width)) {
+                ground.position = ccp(ground.position.x + 2 * ground.contentSize.width, ground.position.y);
+            }
+        }
+        
+        // loop the oceans
+        for (CCNode *ocean in _oceans) {
+            // get the world position of the ground
+            CGPoint groundWorldPosition = [_movingNode convertToWorldSpace:ocean.position];
+            // get the screen position of the ground
+            CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+            // if the left corner is one complete width off the screen, move it to the right
+            if (groundScreenPosition.x <= (-1 * ocean.contentSize.width)) {
+                ocean.position = ccp(ocean.position.x + 2 * ocean.contentSize.width, ocean.position.y);
+            }
+        }
+        [self tryRemove:enemy1 From:_enemies1];
+        [self tryRemove:enemy2 From:_enemies2];
+        [self tryRemoveMissiles];
+
+        
     }
-    [self tryRemove:enemy1 From:_enemies1];
-    [self tryRemove:enemy2 From:_enemies2];
-    [self tryRemoveMissiles];
 
 }
 
