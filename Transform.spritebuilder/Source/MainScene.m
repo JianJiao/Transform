@@ -14,6 +14,7 @@
 #import "Enemy1.h"
 #import "Enemy2.h"
 #import "Rock.h"
+#import "Bonus.h"
 #import "WaterBonus.h"
 
 
@@ -270,6 +271,29 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     return YES;
 }
 
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero WaterBonus:(CCNode *)bonus {
+    NSLog(@"collision, man!");
+    [self tryRemoveWaterBonus: (CCNode*) bonus];
+    [_hero performSelector:@selector(bigBird) withObject:nil afterDelay:0.f];
+
+    return YES;
+}
+
+-(void) tryRemoveWaterBonus:(CCNode*) bonus{
+    
+    // load particle effect
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"wbGet"];
+    // make the particle effect clean itself up, once it is completed
+    explosion.autoRemoveOnFinish = TRUE;
+    // place the particle effect on the seals position
+    explosion.position = bonus.position;
+    // add the particle effect to the same node the missile is on
+    [bonus.parent addChild:explosion];
+    
+    // finally, remove the destroyed missile
+    [bonus removeFromParent];
+}
+
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile enemy:(CCNode *)enemy {
     Enemy *en = (Enemy *) enemy;
     if(!en.myType){
@@ -302,8 +326,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile wildcard: (CCNode *) anything{
-    [self tryRemoveTheMissile: missile];
+    if([anything isKindOfClass:[WaterBonus class]]){
+        NSLog(@"yes, it is");
+    }else{
+        [self tryRemoveTheMissile: missile];
+
+    }
     return YES;
+
 }
 
 - (void) tryRemoveTheMissile: (CCNode*) missile{
@@ -415,7 +445,6 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair barrier:(CCNode *)barrier wildcard:(CCNode *)anything {
     [anything removeFromParent];
-    NSLog(@"collision detected");
     return YES;
 }
 

@@ -14,5 +14,6 @@
 -(void) startHuman;
 -(void) startBird;
 -(void) startAngel;
+-(void) bigBird;
 
 @end

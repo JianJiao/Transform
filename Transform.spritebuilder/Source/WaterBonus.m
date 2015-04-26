@@ -10,4 +10,10 @@
 
 @implementation WaterBonus
 
+- (void)didLoadFromCCB {
+    self.physicsBody.collisionType = @"WaterBonus";
+    self.physicsBody.sensor = YES;
+    self.myType=@"wb";
+}
+
 @end

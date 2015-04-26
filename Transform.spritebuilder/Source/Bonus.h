@@ -10,4 +10,6 @@
 
 @interface Bonus : CCSprite
 
+@property NSString *myType;
+
 @end

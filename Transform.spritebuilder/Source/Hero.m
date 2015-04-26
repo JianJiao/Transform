@@ -33,4 +33,9 @@
     [animationManager runAnimationsForSequenceNamed:@"angel"];
 }
 
+-(void) bigBird{
+    CCAnimationManager* animationManager = self.animationManager;
+    [animationManager runAnimationsForSequenceNamed:@"f_big"];
+}
+
 @end
