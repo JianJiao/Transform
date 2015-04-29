@@ -16,6 +16,8 @@
 #import "Rock.h"
 #import "Bonus.h"
 #import "WaterBonus.h"
+#import "Wrapper.h"
+#import "WrapperBird.h"
 
 
 static const CGFloat firstEnemyPosition = 280.f;
@@ -30,6 +32,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 @implementation MainScene {
     Hero *_hero;
     Missile *_missile;
+    Wrapper *_wrap;
     
     CCPhysicsNode *_physicsNode;
     CCNode* _movingNode;
@@ -41,7 +44,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSArray *_oceans;
 
     NSTimeInterval _sinceTouch;
-    NSTimeInterval _sinceHit, _sinceLoad;
+    NSTimeInterval _sinceHit, _sinceLoad, _sinceBig;
     
 
     NSMutableArray *_obstacles;
@@ -81,6 +84,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _scrollSpeed0 = 80.f;
     _scrollSpeed1 = 40.f;
     _sinceLoad = 0.f;
+    _sinceBig = -1;
   self.userInteractionEnabled = YES;
 
     _grounds0 = @[_ground1, _ground2];
@@ -124,6 +128,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     // set collision type
     _hero.physicsBody.collisionType = @"hero";
     _hero.zOrder = DrawingOrdeHero;
+    
+
+
 
 //  _obstacles = [NSMutableArray array];
 //  [self spawnNewObstacle];
@@ -271,23 +278,86 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     return YES;
 }
 
+
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero WaterBonus:(CCNode *)bonus {
     NSLog(@"collision, man!");
     [self tryRemoveWaterBonus: (CCNode*) bonus];
-    [_hero performSelector:@selector(bigBird) withObject:nil afterDelay:0.f];
+//    [_hero performSelector:@selector(bigBird) withObject:nil afterDelay:0.f];
+    Wrapper *wrap1 = (Wrapper *) [CCBReader load:@"Wrapper"];
+    wrap1.position = _hero.position;
+    [_physicsNode addChild:wrap1];
+    
+    WrapperBird *wrapbird = (WrapperBird *) [CCBReader load:@"WrapperBird"];
+    wrapbird.position = _hero.position;
+    [_physicsNode addChild:wrapbird];
+    
+    
+    _wrap = (Wrapper *) [CCBReader load:@"Wrapper"];
+    _wrap.position = _hero.position;
+    [_physicsNode addChild:_wrap];
+    
+    _sinceBig = 0.0;
+    
+    _hero.visible = false;
 
+
+    _points += 10;
+    _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
+    
     return YES;
 }
 
--(void) tryRemoveWaterBonus:(CCNode*) bonus{
+
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair wrapper:(CCNode *)wrapper enemy:(CCNode *)enemy {
+    NSLog(@"wrapper, man!");
+    Enemy *en = (Enemy *) enemy;
     
     // load particle effect
-    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"wbGet"];
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
     // make the particle effect clean itself up, once it is completed
     explosion.autoRemoveOnFinish = TRUE;
     // place the particle effect on the seals position
-    explosion.position = bonus.position;
+    explosion.position = en.position;
     // add the particle effect to the same node the missile is on
+    [en.parent addChild:explosion];
+
+    [self tryRemoveEnemy:en];
+
+
+    
+    return YES;
+}
+
+
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair wrapper:(CCNode *)wrapper rock:(CCNode *)rock {
+    NSLog(@"wrapper, man!");
+    
+    // load particle effect
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
+    // make the particle effect clean itself up, once it is completed
+    explosion.autoRemoveOnFinish = TRUE;
+    // place the particle effect on the seals position
+    explosion.position = rock.position;
+    // add the particle effect to the same node the missile is on
+    [rock.parent addChild:explosion];
+    
+    [rock removeFromParent];
+    
+    
+    
+    return YES;
+}
+
+
+-(void) tryRemoveWaterBonus:(CCNode*) bonus{
+ 
+    
+    // load particle effect
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toAngel"];
+    // make the particle effect clean itself up, once it is completed
+    explosion.autoRemoveOnFinish = TRUE;
+    // place the particle effect on the seals position
+    explosion.position = ccp(bonus.position.x + 24.0f, bonus.position.y);
     [bonus.parent addChild:explosion];
     
     // finally, remove the destroyed missile
@@ -307,6 +377,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         [self spawnWaterBonusWithPosition: position];
         waterCount=0;
     }
+    
+    _points++;
+    _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
     return YES;
 }
 
@@ -326,7 +399,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile wildcard: (CCNode *) anything{
-    if([anything isKindOfClass:[WaterBonus class]]){
+    if([anything isKindOfClass:[WaterBonus class]]|| [anything isKindOfClass:[Wrapper class]]){
         NSLog(@"yes, it is");
     }else{
         [self tryRemoveTheMissile: missile];
@@ -476,24 +549,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
   [[CCDirector sharedDirector]replaceScene:scene];
 }
 
-//#pragma mark - Obstacle Spawning
-//
-//- (void)spawnNewObstacle {
-//  CCNode *previousObstacle = [_obstacles lastObject];
-//  CGFloat previousObstacleXPosition = previousObstacle.position.x;
-//
-//  if (!previousObstacle) {
-//    // this is the first obstacle
-//    previousObstacleXPosition = firstObstaclePosition;
-//  }
-//
-//  Obstacle *obstacle = (Obstacle *)[CCBReader load:@"Obstacle"];
-//  obstacle.position = ccp(previousObstacleXPosition + distanceBetweenObstacles, 0);
-//  [obstacle setupRandomPosition];
-//  obstacle.zOrder = DrawingOrderPipes;
-//  [_physicsNode addChild:obstacle];
-//  [_obstacles addObject:obstacle];  // _obstacles is a collection
-//}
+
 
 #pragma mark - enemy Spawning
 
@@ -557,27 +613,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     }
 }
 
-// this name is somehow problematic
-//- (void)remove: (NSString*) enemyType From: (NSMutableArray*) objs{
-//    NSMutableArray *offScreenObjs = nil;
-//    
-//    for (CCNode *obj in objs) {
-//        CGPoint objWorldPosition = [_physicsNode convertToWorldSpace:obj.position];
-//        CGPoint objScreenPosition = [self convertToNodeSpace:objWorldPosition];
-//        if (objScreenPosition.x < -obj.contentSize.width) {
-//            if (!offScreenObjs) {
-//                offScreenObjs = [NSMutableArray array];
-//            }
-//            [offScreenObjs addObject:obj];
-//        }
-//    }
-//    for (CCNode *objToRemove in offScreenObjs) {
-//        [objToRemove removeFromParent];
-//        [objs removeObject:objToRemove];
-//        // for each removed obstacle, add a new one
-//        [self spawnNewEnemyWith: enemyType and: objs];
-//    }
-//}
+
 
 
 #pragma mark - spawnRock
@@ -590,34 +626,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [_physicsNode addChild:rock];
 }
 
-//
-//#pragma mark - enemy Spawning
-//
-//- (void)spawnNewEnemyWith: (NSString*) enemyType and: (NSMutableArray*) enemies{
-//    if(!enemyType){
-//        NSLog(@"this seems impossible");
-//    }else{
-//        CCNode *previousEnemy = [enemies lastObject];
-//        CGFloat previousEnemyXPosition = previousEnemy.position.x;
-//        
-//        if (!previousEnemy) {
-//            // this is the first obstacle
-//            previousEnemyXPosition = firstEnemyPosition;
-//        }
-//        
-//        Enemy *enemy = (Enemy *) [CCBReader load:enemyType];
-//        //    enemy.physicsBody.collisionType=@"enemy";   // why can't I set this with the class: did load from ccb
-//        if(!enemy.myType){
-//            NSLog(@"the new one is not correct");
-//        }
-//        enemy.position = ccp(previousEnemyXPosition + distanceBetweenObstacles, 0);
-//        [enemy setupRandomPositionWith: enemyType];
-//        enemy.zOrder = DrawingOrderPipes;
-//        [_physicsNode addChild:enemy];
-//        [enemies addObject:enemy];  // _obstacles is a collection
-//        // keep reference to each enemy in a collection
-//    }
-//}
+
+
 
 
 #pragma mark - Update
@@ -636,6 +646,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _hero.position = ccp(_hero.position.x + delta * _scrollSpeed0, _hero.position.y);
     _ground7.position = ccp(_ground7.position.x + delta * _scrollSpeed0, -5);
     
+    _wrap.position = _hero.position;
     
     if(!_gameOver){
 
@@ -644,9 +655,30 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         _sinceTouch += delta;
         _sinceHit += delta;
         _sinceLoad +=delta;
+        if(_sinceBig>=0){
+            _sinceBig +=delta;
+        }
         if(_sinceLoad >= 2.0f){
             [self spawnRock];
             _sinceLoad = 0.f;
+        }
+        
+        if(_sinceBig >= 7.0f){
+            NSLog(@"executed!");
+            
+            // load particle effect
+            CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"wbGet"];
+            // make the particle effect clean itself up, once it is completed
+            explosion.autoRemoveOnFinish = TRUE;
+            // place the particle effect on the seals position
+            explosion.position = _wrap.position;
+            // add the particle effect to the same node the missile is on
+            [_wrap.parent addChild:explosion];
+            
+            [_wrap removeFromParent];
+            _sinceBig = -1;
+            _hero.visible = true;
+
         }
         
         
