@@ -86,7 +86,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _scrollSpeed1 = 40.f;
     _sinceLoad = 0.f;
     _sinceBig = -1;
-    _sinceTouch = 1;
+    _sinceTouch = 5;
   self.userInteractionEnabled = YES;
 
     _grounds0 = @[_ground1, _ground2];
@@ -211,7 +211,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
           }
       }else{
           // on the right, shoot
-          if(_sinceTouch > 1.f){
+          if(_sinceTouch > 1){
               [self launchMissileWith:touchLocation];
               _sinceTouch = 0.f;
 
@@ -279,6 +279,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero enemy:(CCNode *)enemy {
+//    NSLog(@"game over");
     [self endGameWithMessage:@"You win!"];
     [self gameOver];
     return YES;
@@ -286,7 +287,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero WaterBonus:(CCNode *)bonus {
-    NSLog(@"collision, man!");
+//    NSLog(@"collision, man!");
     [self tryRemoveWaterBonus: (CCNode*) bonus];
 //    [_hero performSelector:@selector(bigBird) withObject:nil afterDelay:0.f];
     Wrapper *wrap1 = (Wrapper *) [CCBReader load:@"Wrapper"];
@@ -315,7 +316,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair wrapper:(CCNode *)wrapper enemy:(CCNode *)enemy {
-    NSLog(@"wrapper, man!");
+//    NSLog(@"wrapper, man!");
     Enemy *en = (Enemy *) enemy;
     
     // load particle effect
@@ -336,7 +337,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair wrapper:(CCNode *)wrapper rock:(CCNode *)rock {
-    NSLog(@"wrapper, man!");
+//    NSLog(@"wrapper, man!");
     
     // load particle effect
     CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
@@ -373,7 +374,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile enemy:(CCNode *)enemy {
     Enemy *en = (Enemy *) enemy;
     if(!en.myType){
-        NSLog(@"oh shit! null!");
+//        NSLog(@"oh shit! null!");
     }
     CGPoint position = en.position;
     [self tryRemoveTheMissile: missile];
@@ -400,13 +401,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero rock:(CCNode *)rock {
+    [self endGameWithMessage:@"You win!"];
     [self gameOver];
     return YES;
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile wildcard: (CCNode *) anything{
     if([anything isKindOfClass:[WaterBonus class]]|| [anything isKindOfClass:[Wrapper class]]){
-        NSLog(@"yes, it is");
+//        NSLog(@"yes, it is");
     }else{
         [self tryRemoveTheMissile: missile];
 
@@ -561,7 +563,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void)spawnNewEnemyWith: (NSString*) enemyType and: (NSMutableArray*) enemies{
     if(!enemyType){
-        NSLog(@"this seems impossible");
+//        NSLog(@"this seems impossible");
     }else{
         CCNode *previousEnemy = [enemies lastObject];
         CGFloat previousEnemyXPosition = previousEnemy.position.x;
@@ -574,7 +576,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         Enemy *enemy = (Enemy *) [CCBReader load:enemyType];
         //    enemy.physicsBody.collisionType=@"enemy";   // why can't I set this with the class: did load from ccb
         if(!enemy.myType){
-            NSLog(@"the new one is not correct");
+//            NSLog(@"the new one is not correct");
         }
         enemy.position = ccp(previousEnemyXPosition + distanceBetweenObstacles, 0);
         [enemy setupRandomPositionWith: enemyType];
@@ -608,7 +610,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 - (void) tryRemove: (NSString*) enemyType From: (NSMutableArray*) objs{
     NSMutableArray *offScreenObjs = nil;
     if(!enemyType){
-        NSLog(@"null! dude, another one");
+//        NSLog(@"null! dude, another one");
     }
     offScreenObjs = [self findOffscreenObjsInArray:objs];
     for (CCNode *objToRemove in offScreenObjs) {
@@ -670,7 +672,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         }
         
         if(_sinceBig >= 7.0f){
-            NSLog(@"executed!");
+//            NSLog(@"executed!");
             
             // load particle effect
             CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"wbGet"];
@@ -764,7 +766,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSMutableArray* enemies;
     NSString *theType = enemy.myType;
     if(!theType){
-        NSLog(@"null, problem here");
+//        NSLog(@"null, problem here");
     }
     if([theType isEqualToString:enemy1]){
         enemies = _enemies1;
