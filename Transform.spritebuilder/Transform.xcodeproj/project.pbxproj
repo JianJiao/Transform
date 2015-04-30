@@ -17,6 +17,7 @@
 		538035711ACA455800661980 /* Enemy2.m in Sources */ = {isa = PBXBuildFile; fileRef = 538035701ACA455800661980 /* Enemy2.m */; };
 		53812C041AF0595F00FAE15F /* WrapperBird.m in Sources */ = {isa = PBXBuildFile; fileRef = 53812C031AF0595F00FAE15F /* WrapperBird.m */; };
 		5382DAE21AB7F39400DF2D6F /* Hero.m in Sources */ = {isa = PBXBuildFile; fileRef = 5382DAE11AB7F39400DF2D6F /* Hero.m */; };
+		53859BFE1AF167D200B377B6 /* GameEnd.m in Sources */ = {isa = PBXBuildFile; fileRef = 53859BFD1AF167D200B377B6 /* GameEnd.m */; };
 		539481BC1AC7B1F800E2654B /* Missile.m in Sources */ = {isa = PBXBuildFile; fileRef = 539481BB1AC7B1F800E2654B /* Missile.m */; };
 		53FE13381ADB3BE300D9BA13 /* Rock.m in Sources */ = {isa = PBXBuildFile; fileRef = 53FE13371ADB3BE300D9BA13 /* Rock.m */; };
 		62188DB118A9D328004F3218 /* Obstacle.m in Sources */ = {isa = PBXBuildFile; fileRef = 62188DB018A9D328004F3218 /* Obstacle.m */; };
@@ -104,6 +105,8 @@
 		53812C031AF0595F00FAE15F /* WrapperBird.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WrapperBird.m; path = Source/WrapperBird.m; sourceTree = "<group>"; };
 		5382DAE01AB7F39400DF2D6F /* Hero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero.h; path = Source/Hero.h; sourceTree = "<group>"; };
 		5382DAE11AB7F39400DF2D6F /* Hero.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero.m; path = Source/Hero.m; sourceTree = "<group>"; };
+		53859BFC1AF167D200B377B6 /* GameEnd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEnd.h; path = Source/GameEnd.h; sourceTree = "<group>"; };
+		53859BFD1AF167D200B377B6 /* GameEnd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEnd.m; path = Source/GameEnd.m; sourceTree = "<group>"; };
 		539481BA1AC7B1F800E2654B /* Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Missile.h; path = Source/Missile.h; sourceTree = "<group>"; };
 		539481BB1AC7B1F800E2654B /* Missile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Missile.m; path = Source/Missile.m; sourceTree = "<group>"; };
 		53FE13361ADB3BE300D9BA13 /* Rock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rock.h; path = Source/Rock.h; sourceTree = "<group>"; };
@@ -213,6 +216,8 @@
 				53812C031AF0595F00FAE15F /* WrapperBird.m */,
 				5305757A1AF0AAB200805087 /* ControlScene.h */,
 				5305757B1AF0AAB200805087 /* ControlScene.m */,
+				53859BFC1AF167D200B377B6 /* GameEnd.h */,
+				53859BFD1AF167D200B377B6 /* GameEnd.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -336,7 +341,6 @@
 				ORGANIZATIONNAME = Apportable;
 				TargetAttributes = {
 					B77F1B2D17B978D7009739AE = {
-						DevelopmentTeam = SBVP8ED765;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -439,6 +443,7 @@
 				B73789871807631A0076A88C /* main.m in Sources */,
 				5380356E1ACA454700661980 /* Enemy1.m in Sources */,
 				536062961AE7208E00B5A3AA /* WaterBonus.m in Sources */,
+				53859BFE1AF167D200B377B6 /* GameEnd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

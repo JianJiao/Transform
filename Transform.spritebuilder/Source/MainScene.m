@@ -18,6 +18,7 @@
 #import "WaterBonus.h"
 #import "Wrapper.h"
 #import "WrapperBird.h"
+#import "GameEnd.h"
 
 
 static const CGFloat firstEnemyPosition = 280.f;
@@ -85,6 +86,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _scrollSpeed1 = 40.f;
     _sinceLoad = 0.f;
     _sinceBig = -1;
+    _sinceTouch = 1;
   self.userInteractionEnabled = YES;
 
     _grounds0 = @[_ground1, _ground2];
@@ -209,11 +211,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
           }
       }else{
           // on the right, shoot
-        [self launchMissileWith:touchLocation];
+          if(_sinceTouch > 1.f){
+              [self launchMissileWith:touchLocation];
+              _sinceTouch = 0.f;
+
+          }
       }
 //    [_hero.physicsBody applyImpulse:ccp(0, -400.f)];
     //[_hero.physicsBody applyAngularImpulse:10000.f];
-    _sinceTouch = 0.f;
   }
 }
 
@@ -274,6 +279,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero enemy:(CCNode *)enemy {
+    [self endGameWithMessage:@"You win!"];
     [self gameOver];
     return YES;
 }
@@ -805,6 +811,25 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     return offScreenObjs;
 }
 
+
+- (void)endGameWithMessage:(NSString *)message {
+    GameEnd *gameEndPopover = (GameEnd *)[CCBReader load:@"GameEnd"];
+    gameEndPopover.positionType = CCPositionTypeNormalized;
+    gameEndPopover.position = ccp(0.5, 0.5);
+    gameEndPopover.zOrder = INT_MAX;
+    
+    [gameEndPopover setMessage:message score:_points];
+    
+    [self addChild:gameEndPopover];
+    
+    NSNumber *highScore = [[NSUserDefaults standardUserDefaults]objectForKey:@"highscore"];
+    if (_points > [highScore intValue]) {
+        // new highscore!
+        highScore = [NSNumber numberWithInt:_points];
+        [[NSUserDefaults standardUserDefaults]setObject:highScore forKey:@"highscore"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
+}
 
 
 @end
