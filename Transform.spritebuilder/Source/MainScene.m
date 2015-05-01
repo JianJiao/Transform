@@ -19,7 +19,9 @@
 #import "Wrapper.h"
 #import "WrapperBird.h"
 #import "GameEnd.h"
-
+#import "Explosion.h"
+#import "Enemy3.h"
+#import "Enemy4.h"
 
 static const CGFloat firstEnemyPosition = 280.f;
 static const CGFloat distanceBetweenObstacles = 160.f;
@@ -50,14 +52,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
     NSMutableArray *_obstacles;
     NSMutableArray *_enemies1;
-    NSMutableArray *_enemies2;
+    NSMutableArray *_enemies2, *_enemies3;
     NSMutableArray *_missiles;
 
     CCButton *_restartButton;
 
     BOOL _gameOver;
 
-    CGFloat _scrollSpeed0, _scrollSpeed1;
+    CGFloat _scrollSpeed0, _scrollSpeed1, _scrollSpeed2;
 
     NSInteger _points;
     CCLabelTTF *_scoreLabel;
@@ -84,6 +86,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 - (void)didLoadFromCCB {
     _scrollSpeed0 = 80.f;
     _scrollSpeed1 = 40.f;
+    _scrollSpeed2 = 30.f;
     _sinceLoad = 0.f;
     _sinceBig = -1;
     _sinceTouch = 5;
@@ -140,6 +143,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //  [self spawnNewObstacle];
     _missiles = [NSMutableArray array];
     _enemies1 = [NSMutableArray array];
+    _enemies3 = [NSMutableArray array];
     [self spawnNewEnemyWith:enemy1 and:_enemies1];
     [self spawnNewEnemyWith:enemy1 and:_enemies1];
     [self spawnNewEnemyWith:enemy1 and:_enemies1];
@@ -173,14 +177,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
                   ground.physicsBody.collisionType = @"level";
               }
               charPosition = atLower;
-              // load particle effect
-              CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toHuman"];
-              // make the particle effect clean itself up, once it is completed
-              explosion.autoRemoveOnFinish = TRUE;
-              // place the particle effect on the seals position
-              explosion.position = _hero.position;
-              // add the particle effect to the same node the missile is on
-              [_hero.parent addChild:explosion];
+////              // load particle effect
+////              CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toHuman"];
+////              // make the particle effect clean itself up, once it is completed
+////              explosion.autoRemoveOnFinish = TRUE;
+////              // place the particle effect on the seals position
+////              explosion.position = _hero.position;
+//              // add the particle effect to the same node the missile is on
+//              [_hero.parent addChild:explosion];
               [_hero performSelector:@selector(startFish) withObject:nil afterDelay:0.f];
           }else if([charPosition isEqualToString:atLower]){
               // if at lower space, apply downward force
@@ -211,7 +215,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
           }
       }else{
           // on the right, shoot
-          if(_sinceTouch > 1){
+          if(_sinceTouch > 0.6){
               [self launchMissileWith:touchLocation];
               _sinceTouch = 0.f;
 
@@ -224,14 +228,17 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void) launchMissileWith: (CGPoint) touchPosition{
     CCNode* missile = [CCBReader load:@"Missile"];
-    missile.position = ccpAdd(_hero.position, ccp(30,0));
-    [_physicsNode addChild:missile];
-    CGPoint launchDirection = [self getDirectionWith:touchPosition];
-    //CGPoint launchDirection = ccp(2, 0);
-    CGPoint force = ccpMult(launchDirection, 60);
-    [missile.physicsBody applyForce:force];
-    [_missiles addObject:missile];
-    //NSLog(@"initial array: %@", _missiles);
+//    missile.position = ccpAdd(_hero.position, ccp(30,0));
+    if(missile){
+        [_physicsNode addChild:missile];
+        missile.position = ccp(_hero.position.x + 30, _hero.position.y);
+        CGPoint launchDirection = [self getDirectionWith:touchPosition];
+        //CGPoint launchDirection = ccp(2, 0);
+        CGPoint force = ccpMult(launchDirection, 30);
+        [missile.physicsBody applyForce:force];
+        [_missiles addObject:missile];
+        //NSLog(@"initial array: %@", _missiles);
+    }
 }
 
 - (CGPoint) getDirectionWith: (CGPoint) touchPosition{
@@ -263,14 +270,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         ground.physicsBody.collisionType = @"noMatch";
     }
     
-    // load particle effect
-    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"toHuman"];
-    // make the particle effect clean itself up, once it is completed
-    explosion.autoRemoveOnFinish = TRUE;
-    // place the particle effect on the seals position
-    explosion.position = hero.position;
-    // add the particle effect to the same node the missile is on
-    [hero.parent addChild:explosion];
+
     // become a handsome young man again
     [_hero performSelector:@selector(startHuman) withObject:nil afterDelay:0.f];
 
@@ -280,7 +280,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero enemy:(CCNode *)enemy {
 //    NSLog(@"game over");
-    [self endGameWithMessage:@"You win!"];
+    [self endGameWithMessage:@"Game Over"];
     [self gameOver];
     return YES;
 }
@@ -372,6 +372,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile enemy:(CCNode *)enemy {
+    
+    
     Enemy *en = (Enemy *) enemy;
     if(!en.myType){
 //        NSLog(@"oh shit! null!");
@@ -384,9 +386,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         [self spawnWaterBonusWithPosition: position];
         waterCount=0;
     }
-    
-    _points++;
-    _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
+
+
     return YES;
 }
 
@@ -401,13 +402,16 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero rock:(CCNode *)rock {
-    [self endGameWithMessage:@"You win!"];
+    [self endGameWithMessage:@"Game Over"];
     [self gameOver];
     return YES;
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair missile:(CCNode *)missile wildcard: (CCNode *) anything{
-    if([anything isKindOfClass:[WaterBonus class]]|| [anything isKindOfClass:[Wrapper class]]){
+//    NSLog(NSStringFromClass([anything class]));
+
+    
+    if([anything isKindOfClass:[WaterBonus class]]|| [anything isKindOfClass:[Wrapper class]]||[anything isKindOfClass:[Explosion class]]){
 //        NSLog(@"yes, it is");
     }else{
         [self tryRemoveTheMissile: missile];
@@ -419,13 +423,13 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void) tryRemoveTheMissile: (CCNode*) missile{
     // load particle effect
-    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"bombExplosion"];
-    // make the particle effect clean itself up, once it is completed
-    explosion.autoRemoveOnFinish = TRUE;
-    // place the particle effect on the seals position
-    explosion.position = missile.position;
-    // add the particle effect to the same node the missile is on
-    [missile.parent addChild:explosion];
+    
+    Explosion *ex = (Explosion *) [CCBReader load:@"Explosion"];
+
+    ex.position = missile.position;
+    ex.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:ex];
+
     
     // finally, remove the destroyed missile
     [missile removeFromParent];
@@ -535,6 +539,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
   if (!_gameOver) {
       _scrollSpeed0 = 0.f;
       _scrollSpeed1 = 0.f;
+      _scrollSpeed2 = 0.f;
       _gameOver = YES;
       _restartButton.visible = YES;
 
@@ -609,9 +614,6 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 - (void) tryRemove: (NSString*) enemyType From: (NSMutableArray*) objs{
     NSMutableArray *offScreenObjs = nil;
-    if(!enemyType){
-//        NSLog(@"null! dude, another one");
-    }
     offScreenObjs = [self findOffscreenObjsInArray:objs];
     for (CCNode *objToRemove in offScreenObjs) {
         [objToRemove removeFromParent];
@@ -627,11 +629,36 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 #pragma mark - spawnRock
 - (void) spawnRock{
     Rock *rock = (Rock *) [CCBReader load:@"Rock"];
-    float anchorX = _hero.position.x + 200;
+    float anchorX = _hero.position.x + 300;
     rock.position = ccp(anchorX, 0);
     [rock setupRandomPosition];
     rock.zOrder = DrawingOrderPipes;
     [_physicsNode addChild:rock];
+}
+
+
+- (void) spawnEn{
+    Enemy3 *en = (Enemy3 *) [CCBReader load:@"Enemy3"];
+    float anchorX = _hero.position.x + 300;
+    en.position = ccp(anchorX, 0);
+    [en setupRandomPosition];
+
+    en.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:en];
+    
+    [_enemies3 addObject:en];  // _obstacles is a collection
+    
+}
+
+- (void) spawnEn4{
+    Enemy4 *en = (Enemy4 *) [CCBReader load:@"Enemy4"];
+    float anchorX = _hero.position.x + 300;
+    en.position = ccp(anchorX, 0);
+    [en setupRandomPosition];
+    
+    en.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:en];
+    
 }
 
 
@@ -654,6 +681,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _hero.position = ccp(_hero.position.x + delta * _scrollSpeed0, _hero.position.y);
     _ground7.position = ccp(_ground7.position.x + delta * _scrollSpeed0, -5);
     
+    
+    
     _wrap.position = _hero.position;
     
     if(!_gameOver){
@@ -668,6 +697,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         }
         if(_sinceLoad >= 2.0f){
             [self spawnRock];
+            [self spawnEn];
+            [self spawnEn4];
             _sinceLoad = 0.f;
         }
         
@@ -700,7 +731,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         
         _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed0 *delta), _physicsNode.position.y);
         _movingNode.position = ccp(_movingNode.position.x - (_scrollSpeed1 *delta),_movingNode.position.y);
-        
+
+        for(CCNode *en in _enemies3){
+
+            en.position = ccp(en.position.x - (_scrollSpeed2*delta), en.position.y);
+        }
+
+
+
         
         // todo: optimize the repeated code
         // loop the lower limit
@@ -754,6 +792,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         }
         [self tryRemove:enemy1 From:_enemies1];
         [self tryRemove:enemy2 From:_enemies2];
+        [self tryRemove:nil From:_enemies3];
         [self tryRemoveMissiles];
 
         
@@ -765,9 +804,6 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 - (void) tryRemoveEnemy: (Enemy*) enemy{
     NSMutableArray* enemies;
     NSString *theType = enemy.myType;
-    if(!theType){
-//        NSLog(@"null, problem here");
-    }
     if([theType isEqualToString:enemy1]){
         enemies = _enemies1;
     }else if([theType isEqualToString:enemy2]){
@@ -776,6 +812,15 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [enemy removeFromParent];
     [enemies removeObject:enemy];
     [self spawnNewEnemyWith:theType and:enemies];
+    
+    if([charPosition isEqualToString:atLower]||[charPosition isEqualToString:atGround]){
+        _points++;
+    }else{
+        _points += 4;
+    }
+    _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
+
+
 }
 
 - (void) tryRemoveMissiles{

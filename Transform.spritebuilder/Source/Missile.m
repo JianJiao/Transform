@@ -12,7 +12,12 @@
 
 - (void)didLoadFromCCB {
     self.physicsBody.collisionType = @"missile";
+    self.physicsBody.sensor = YES;
+}
 
+- (void)startExplosion{
+    CCAnimationManager* animationManager = self.animationManager;
+    [animationManager runAnimationsForSequenceNamed:@"explosion"];
 }
 
 @end

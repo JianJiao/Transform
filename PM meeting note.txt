@@ -63,7 +63,14 @@ WEEK 5: add bonus and better effects
 WEEK 6: Fix and release the game.
 1. bonus
   * when shark disappears, load the diomand. 
-
+  * exclude waterbonus from the wildcard of missile collision    
+  * load bigger animation timeline when get water bonus
+2. fix: solve the physics border problem with the timeline
+3. the score board 
+4. the control scene where you can see your score      
+5. fix the particle effect slow down problem    
+6. change sprites to make game look better
+7. add combo
 
 
 

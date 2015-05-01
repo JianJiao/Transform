@@ -16,7 +16,7 @@
 	<key>currentResolution</key>
 	<integer>0</integer>
 	<key>currentSequenceId</key>
-	<integer>2</integer>
+	<integer>0</integer>
 	<key>docDimensionsType</key>
 	<integer>1</integer>
 	<key>fileType</key>
@@ -270,7 +270,7 @@
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/bbb1.png</string>
+										<string>aa/aa1.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -283,12 +283,12 @@
 									<key>name</key>
 									<string>spriteFrame</string>
 									<key>time</key>
-									<real>0.13333334028720856</real>
+									<real>0.10000000149011612</real>
 									<key>type</key>
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/bbb2.png</string>
+										<string>aa/aa2.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -301,12 +301,120 @@
 									<key>name</key>
 									<string>spriteFrame</string>
 									<key>time</key>
-									<real>0.26666668057441711</real>
+									<real>0.20000000298023224</real>
 									<key>type</key>
 									<integer>7</integer>
 									<key>value</key>
 									<array>
-										<string>use/bbb1.png</string>
+										<string>aa/aa3.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.30000001192092896</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>aa/aa4.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.40000000596046448</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>aa/aa5.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.5</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>aa/aa6.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.60000002384185791</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>aa/aa7.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.69999998807907104</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>aa/aa8.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.80000001192092896</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>aa/aa1.png</string>
 										<string>Use regular file</string>
 									</array>
 								</dict>
@@ -543,7 +651,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>use/f_reverse_big2.png</string>
+							<string>aa/aa1.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -618,48 +726,56 @@
 			<key>points</key>
 			<array>
 				<array>
-					<real>-14.3125</real>
-					<real>-20.695297241210938</real>
+					<real>-13.5703125</real>
+					<real>-13.089828491210938</real>
 				</array>
 				<array>
-					<real>-13.69921875</real>
-					<real>19.835952758789062</real>
+					<real>-12.2109375</real>
+					<real>15.175796508789062</real>
 				</array>
 				<array>
-					<real>14.44140625</real>
-					<real>20.105484008789062</real>
+					<real>7.0703125</real>
+					<real>18.648452758789062</real>
 				</array>
 				<array>
-					<real>16.2421875</real>
-					<real>-2.4921722412109375</real>
+					<real>10.33203125</real>
+					<real>10.757827758789062</real>
 				</array>
 				<array>
-					<real>16.81640625</real>
-					<real>-21.914047241210938</real>
+					<real>14.109375</real>
+					<real>-1.1445159912109375</real>
+				</array>
+				<array>
+					<real>12.40234375</real>
+					<real>-13.617172241210938</real>
 				</array>
 			</array>
 			<key>polygons</key>
 			<array>
 				<array>
 					<array>
-						<real>16.81640625</real>
-						<real>-21.914047241210938</real>
+						<real>12.40234375</real>
+						<real>-13.617172241210938</real>
 					</array>
 					<array>
-						<real>16.2421875</real>
-						<real>-2.4921722412109375</real>
+						<real>14.109375</real>
+						<real>-1.1445159912109375</real>
 					</array>
 					<array>
-						<real>14.44140625</real>
-						<real>20.105484008789062</real>
+						<real>10.33203125</real>
+						<real>10.757827758789062</real>
 					</array>
 					<array>
-						<real>-13.69921875</real>
-						<real>19.835952758789062</real>
+						<real>7.0703125</real>
+						<real>18.648452758789062</real>
 					</array>
 					<array>
-						<real>-14.3125</real>
-						<real>-20.695297241210938</real>
+						<real>-12.2109375</real>
+						<real>15.175796508789062</real>
+					</array>
+					<array>
+						<real>-13.5703125</real>
+						<real>-13.089828491210938</real>
 					</array>
 				</array>
 			</array>
@@ -879,13 +995,13 @@
 			<key>chainedSequenceId</key>
 			<integer>3</integer>
 			<key>length</key>
-			<real>0.26666668057441711</real>
+			<real>0.80000001192092896</real>
 			<key>name</key>
 			<string>bird</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>0.26666668057441711</real>
+			<real>0.80000001192092896</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

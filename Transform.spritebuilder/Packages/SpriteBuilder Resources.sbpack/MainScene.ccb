@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>24</integer>
+	<integer>27</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -189,7 +189,7 @@
 								<key>value</key>
 								<array>
 									<real>0.0</real>
-									<real>0.0</real>
+									<real>-10</real>
 									<integer>0</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -297,7 +297,7 @@
 								<key>value</key>
 								<array>
 									<real>384</real>
-									<real>0.0</real>
+									<real>-10</real>
 									<integer>0</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -592,10 +592,6 @@
 						<array/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
-				<key>seqExpanded</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -629,8 +625,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>163</real>
-							<real>308</real>
+							<real>162</real>
+							<real>297</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -844,7 +840,7 @@
 								<key>value</key>
 								<array>
 									<real>0.0</real>
-									<real>0.0</real>
+									<real>-1</real>
 									<integer>0</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -869,7 +865,7 @@
 								<key>value</key>
 								<array>
 									<real>1</real>
-									<real>0.05000000074505806</real>
+									<real>0.0099999997764825821</real>
 									<false/>
 									<integer>0</integer>
 								</array>
@@ -1017,7 +1013,7 @@
 								<key>value</key>
 								<array>
 									<real>340</real>
-									<real>0.0</real>
+									<real>-1</real>
 									<integer>0</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -1042,7 +1038,7 @@
 								<key>value</key>
 								<array>
 									<real>1</real>
-									<real>0.05000000074505806</real>
+									<real>0.0099999997764825821</real>
 									<false/>
 									<integer>0</integer>
 								</array>
@@ -1206,7 +1202,7 @@
 								<key>value</key>
 								<array>
 									<real>56</real>
-									<real>22.920013427734375</real>
+									<real>10.920013427734375</real>
 									<integer>0</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -1367,7 +1363,7 @@
 								<key>value</key>
 								<array>
 									<real>0.0</real>
-									<real>4</real>
+									<real>0.0</real>
 									<integer>1</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -1392,7 +1388,7 @@
 								<key>value</key>
 								<array>
 									<real>1</real>
-									<real>0.05000000074505806</real>
+									<real>0.0099999997764825821</real>
 									<false/>
 									<integer>0</integer>
 								</array>
@@ -1540,7 +1536,7 @@
 								<key>value</key>
 								<array>
 									<real>340</real>
-									<real>4</real>
+									<real>0.0</real>
 									<integer>1</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -1565,7 +1561,7 @@
 								<key>value</key>
 								<array>
 									<real>1</real>
-									<real>0.05000000074505806</real>
+									<real>0.0099999997764825821</real>
 									<false/>
 									<integer>0</integer>
 								</array>
@@ -1755,7 +1751,7 @@
 								<key>value</key>
 								<array>
 									<real>0.0</real>
-									<real>0.5</real>
+									<real>0.50999999046325684</real>
 									<integer>1</integer>
 									<integer>0</integer>
 									<integer>2</integer>
@@ -1780,7 +1776,7 @@
 								<key>value</key>
 								<array>
 									<real>1</real>
-									<real>0.05000000074505806</real>
+									<real>0.0099999997764825821</real>
 									<false/>
 									<integer>0</integer>
 								</array>
@@ -1936,7 +1932,7 @@
 								<key>value</key>
 								<array>
 									<real>340</real>
-									<real>0.5</real>
+									<real>0.50999999046325684</real>
 									<integer>1</integer>
 									<integer>0</integer>
 									<integer>2</integer>
@@ -1961,7 +1957,7 @@
 								<key>value</key>
 								<array>
 									<real>1</real>
-									<real>0.05000000074505806</real>
+									<real>0.0099999997764825821</real>
 									<false/>
 									<integer>0</integer>
 								</array>
@@ -2057,6 +2053,10 @@
 									<real>0.0</real>
 								</array>
 								<array>
+									<real>138.71818542480469</real>
+									<real>104.72434234619141</real>
+								</array>
+								<array>
 									<real>0.0</real>
 									<real>155</real>
 								</array>
@@ -2085,12 +2085,8 @@
 							<array>
 								<array>
 									<array>
-										<real>241.015625</real>
-										<real>120.390625</real>
-									</array>
-									<array>
-										<real>0.0</real>
-										<real>155</real>
+										<real>138.71818542480469</real>
+										<real>104.72434234619141</real>
 									</array>
 									<array>
 										<real>0.0</real>
@@ -2103,10 +2099,6 @@
 								</array>
 								<array>
 									<array>
-										<real>115.8828125</real>
-										<real>22.343902587890625</real>
-									</array>
-									<array>
 										<real>156.953125</real>
 										<real>-12.34344482421875</real>
 									</array>
@@ -2117,6 +2109,38 @@
 									<array>
 										<real>348</real>
 										<real>155</real>
+									</array>
+									<array>
+										<real>241.015625</real>
+										<real>120.390625</real>
+									</array>
+								</array>
+								<array>
+									<array>
+										<real>241.015625</real>
+										<real>120.390625</real>
+									</array>
+									<array>
+										<real>0.0</real>
+										<real>155</real>
+									</array>
+									<array>
+										<real>138.71818542480469</real>
+										<real>104.72434234619141</real>
+									</array>
+								</array>
+								<array>
+									<array>
+										<real>138.71818542480469</real>
+										<real>104.72434234619141</real>
+									</array>
+									<array>
+										<real>115.8828125</real>
+										<real>22.343902587890625</real>
+									</array>
+									<array>
+										<real>156.953125</real>
+										<real>-12.34344482421875</real>
 									</array>
 									<array>
 										<real>241.015625</real>
@@ -2896,6 +2920,86 @@
 						</array>
 					</dict>
 				</array>
+			</dict>
+			<dict>
+				<key>UUID</key>
+				<integer>24</integer>
+				<key>baseClass</key>
+				<string>CCNode</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>displayName</key>
+				<string>movingNode</string>
+				<key>memberVarAssignmentName</key>
+				<string>_movingNode2</string>
+				<key>memberVarAssignmentType</key>
+				<integer>1</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>name</string>
+						<key>type</key>
+						<string>StringSimple</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>contentSize</string>
+						<key>type</key>
+						<string>Size</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

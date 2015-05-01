@@ -10,4 +10,7 @@
 
 @interface Missile : CCSprite
 
+-(void) startExplosion;
+
+
 @end

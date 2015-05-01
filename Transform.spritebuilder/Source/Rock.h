@@ -8,7 +8,7 @@
 
 #import "Enemy.h"
 
-@interface Rock : Enemy
+@interface Rock : CCSprite
 - (void) setupRandomPosition;
 - (void) anotherMethod;
 
