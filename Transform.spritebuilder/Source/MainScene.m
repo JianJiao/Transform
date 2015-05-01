@@ -38,16 +38,18 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     Wrapper *_wrap;
     
     CCPhysicsNode *_physicsNode;
-    CCNode* _movingNode;
+    CCNode* _movingNode, *_movingNode2, *_movingNode3;
 
     CCNode *_ground1, *_ground2, *_ground3, *_ground4,*_ground5, *_ground6, *_ground7;
     CCNode *_ocean0, *_ocean1;
+    CCNode *_bg0, *_bg1, *_bg2, *_bg3, *_bg4, *_bg5, *_bg6,*_bg7,*_bg8,*_bg9;
 
     NSArray *_grounds0, *_grounds1, *_grounds2;
     NSArray *_oceans;
+    NSArray *_bgs, *_bgs2, *_bgs3;
 
     NSTimeInterval _sinceTouch;
-    NSTimeInterval _sinceHit, _sinceLoad, _sinceBig;
+    NSTimeInterval _sinceHit, _sinceLoad, _sinceBig, _sinceLoad2;
     
 
     NSMutableArray *_obstacles;
@@ -59,10 +61,12 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
     BOOL _gameOver;
 
-    CGFloat _scrollSpeed0, _scrollSpeed1, _scrollSpeed2;
+    CGFloat _scrollSpeed0, _scrollSpeed1, _scrollSpeed2, _scrollSpeed3, _scrollSpeed4, _scrollSpeed5, _scrollSpeed6;
 
     NSInteger _points;
+    NSInteger _bonusCount;
     CCLabelTTF *_scoreLabel;
+    CCLabelTTF *_bonusLabel;
     
     NSString *charPosition;
     
@@ -84,10 +88,15 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (void)didLoadFromCCB {
-    _scrollSpeed0 = 80.f;
+    _scrollSpeed0 = 70.f;
     _scrollSpeed1 = 40.f;
-    _scrollSpeed2 = 30.f;
+    _scrollSpeed2 = 40.f;
+    _scrollSpeed3 = 20.f;
+    _scrollSpeed4 = 10.f;
+    _scrollSpeed5 = 20.f;
+    _scrollSpeed6 = 26.f;
     _sinceLoad = 0.f;
+    _sinceLoad2 = 0.f;
     _sinceBig = -1;
     _sinceTouch = 5;
   self.userInteractionEnabled = YES;
@@ -96,7 +105,10 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _grounds1 = @[_ground3, _ground4];
     _grounds2 = @[_ground5, _ground6];
     _oceans = @[_ocean0, _ocean1];
-    
+    _bgs = @[_bg0, _bg1];
+    _bgs2 = @[_bg4, _bg5, _bg6, _bg7, _bg8,_bg9];
+    _bgs3 = @[_bg2, _bg3];
+
     // lower limit
     for (CCNode *ground in _grounds0) {
         // set collision type
@@ -308,8 +320,11 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _hero.visible = false;
 
 
-    _points += 10;
-    _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
+//    _points += 10;
+//    _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
+    
+    _bonusCount +=1;
+    _bonusLabel.String = [NSString stringWithFormat:@":%d", (int)_bonusCount];
     
     return YES;
 }
@@ -540,6 +555,11 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
       _scrollSpeed0 = 0.f;
       _scrollSpeed1 = 0.f;
       _scrollSpeed2 = 0.f;
+      _scrollSpeed3 = 0.f;
+      _scrollSpeed4 = 0.f;
+      _scrollSpeed5 = 0.f;
+      _scrollSpeed6 = 0.f;
+
       _gameOver = YES;
       _restartButton.visible = YES;
 
@@ -692,14 +712,18 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         _sinceTouch += delta;
         _sinceHit += delta;
         _sinceLoad +=delta;
+        _sinceLoad2 +=delta;
         if(_sinceBig>=0){
             _sinceBig +=delta;
         }
         if(_sinceLoad >= 2.0f){
             [self spawnRock];
-            [self spawnEn];
             [self spawnEn4];
             _sinceLoad = 0.f;
+        }
+        if(_sinceLoad2 >= 5.0f){
+            [self spawnEn];
+            _sinceLoad2 = 0.f;
         }
         
         if(_sinceBig >= 7.0f){
@@ -731,10 +755,22 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         
         _physicsNode.position = ccp(_physicsNode.position.x - (_scrollSpeed0 *delta), _physicsNode.position.y);
         _movingNode.position = ccp(_movingNode.position.x - (_scrollSpeed1 *delta),_movingNode.position.y);
+        _movingNode2.position = ccp(_movingNode2.position.x - (_scrollSpeed5 *delta),_movingNode2.position.y);
+        _movingNode3.position = ccp(_movingNode3.position.x - (_scrollSpeed6 *delta),_movingNode3.position.y);
+
+
 
         for(CCNode *en in _enemies3){
 
             en.position = ccp(en.position.x - (_scrollSpeed2*delta), en.position.y);
+        }
+        
+        for(CCNode *en in _enemies2){
+            en.position = ccp(en.position.x + (_scrollSpeed3*delta), en.position.y);
+        }
+        
+        for(CCNode *en in _enemies1){
+            en.position = ccp(en.position.x + (_scrollSpeed4*delta), en.position.y);
         }
 
 
@@ -790,6 +826,39 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
                 ocean.position = ccp(ocean.position.x + 2 * ocean.contentSize.width, ocean.position.y);
             }
         }
+        for (CCNode *ocean in _bgs) {
+            // get the world position of the ground
+            CGPoint groundWorldPosition = [_movingNode convertToWorldSpace:ocean.position];
+            // get the screen position of the ground
+            CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+            // if the left corner is one complete width off the screen, move it to the right
+            if (groundScreenPosition.x <= (-1 * ocean.contentSize.width+1)) {
+                ocean.position = ccp(ocean.position.x + 2 * ocean.contentSize.width-2, ocean.position.y);
+            }
+        }
+        
+        for (CCNode *ocean in _bgs2) {
+            // get the world position of the ground
+            CGPoint groundWorldPosition = [_movingNode2 convertToWorldSpace:ocean.position];
+            // get the screen position of the ground
+            CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+            // if the left corner is one complete width off the screen, move it to the right
+            if (groundScreenPosition.x <= (-1 * ocean.contentSize.width+1)) {
+                ocean.position = ccp(ocean.position.x + 2 * ocean.contentSize.width-2, ocean.position.y);
+            }
+        }
+        
+        for (CCNode *ocean in _bgs3) {
+            // get the world position of the ground
+            CGPoint groundWorldPosition = [_movingNode3 convertToWorldSpace:ocean.position];
+            // get the screen position of the ground
+            CGPoint groundScreenPosition = [self convertToNodeSpace:groundWorldPosition];
+            // if the left corner is one complete width off the screen, move it to the right
+            if (groundScreenPosition.x <= (-1 * ocean.contentSize.width+1)) {
+                ocean.position = ccp(ocean.position.x + 2 * ocean.contentSize.width-2, ocean.position.y);
+            }
+        }
+        
         [self tryRemove:enemy1 From:_enemies1];
         [self tryRemove:enemy2 From:_enemies2];
         [self tryRemove:nil From:_enemies3];
