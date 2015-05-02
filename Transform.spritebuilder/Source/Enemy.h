@@ -11,7 +11,7 @@
 @interface Enemy : CCSprite
 
 @property NSString *myType;
-
+@property bool removed;
 - (void)setupRandomPositionWith: (NSString*) enemyType;
 
 

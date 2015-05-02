@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -38,7 +38,229 @@
 		<key>baseClass</key>
 		<string>CCSprite</string>
 		<key>children</key>
-		<array/>
+		<array>
+			<dict>
+				<key>UUID</key>
+				<integer>1</integer>
+				<key>animatedProperties</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>spriteFrame</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.0</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/bigbird1.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.23333333432674408</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/bigbird2.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.5</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/bigbird1.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>0.76666665077209473</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/bigbird2.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>1</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>use/bigbird1.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
+							</array>
+							<key>name</key>
+							<string>spriteFrame</string>
+							<key>type</key>
+							<integer>7</integer>
+						</dict>
+					</dict>
+				</dict>
+				<key>baseClass</key>
+				<string>CCSprite</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>displayName</key>
+				<string>CCSprite</string>
+				<key>memberVarAssignmentName</key>
+				<string></string>
+				<key>memberVarAssignmentType</key>
+				<integer>1</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>name</string>
+						<key>type</key>
+						<string>StringSimple</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.5</real>
+							<real>0.5</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>baseValue</key>
+						<array>
+							<string></string>
+							<string>Use regular file</string>
+						</array>
+						<key>name</key>
+						<string>spriteFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string>use/bigbird1.png</string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>normalMapSpriteFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string></string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>color</string>
+						<key>type</key>
+						<string>Color3</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>effects</string>
+						<key>type</key>
+						<string>EffectControl</string>
+						<key>value</key>
+						<array/>
+					</dict>
+				</array>
+				<key>seqExpanded</key>
+				<true/>
+			</dict>
+		</array>
 		<key>customClass</key>
 		<string>Wrapper</string>
 		<key>displayName</key>
@@ -50,7 +272,7 @@
 		<key>physicsBody</key>
 		<dict>
 			<key>affectedByGravity</key>
-			<false/>
+			<true/>
 			<key>allowsRotation</key>
 			<true/>
 			<key>bodyShape</key>
@@ -74,40 +296,218 @@
 			<key>points</key>
 			<array>
 				<array>
-					<real>0.0</real>
-					<real>0.0</real>
+					<real>-55.4140625</real>
+					<real>-43.0703125</real>
 				</array>
 				<array>
-					<real>0.0</real>
-					<real>175</real>
+					<real>-66.75</real>
+					<real>-21.27734375</real>
 				</array>
 				<array>
-					<real>186</real>
-					<real>175</real>
+					<real>-96.01171875</real>
+					<real>-26.265625</real>
 				</array>
 				<array>
-					<real>186</real>
-					<real>0.0</real>
+					<real>-98.75</real>
+					<real>11.109375</real>
+				</array>
+				<array>
+					<real>-85.44140625</real>
+					<real>5.51171875</real>
+				</array>
+				<array>
+					<real>-74.33203125</real>
+					<real>28.77734375</real>
+				</array>
+				<array>
+					<real>-48.76171875</real>
+					<real>18.09765625</real>
+				</array>
+				<array>
+					<real>-21.0078125</real>
+					<real>57.2109375</real>
+				</array>
+				<array>
+					<real>10.8828125</real>
+					<real>65.890625</real>
+				</array>
+				<array>
+					<real>56.34375</real>
+					<real>58.7421875</real>
+				</array>
+				<array>
+					<real>84.16796875</real>
+					<real>15.5</real>
+				</array>
+				<array>
+					<real>83.859375</real>
+					<real>3.3203125</real>
+				</array>
+				<array>
+					<real>94.5</real>
+					<real>-8.109375</real>
+				</array>
+				<array>
+					<real>83.20703125</real>
+					<real>-17.6953125</real>
+				</array>
+				<array>
+					<real>73.12109375</real>
+					<real>-43.03125</real>
+				</array>
+				<array>
+					<real>34.92578125</real>
+					<real>-67.94921875</real>
+				</array>
+				<array>
+					<real>-11.17578125</real>
+					<real>-61.00390625</real>
+				</array>
+				<array>
+					<real>-28.2578125</real>
+					<real>-68.046875</real>
+				</array>
+				<array>
+					<real>-26.48046875</real>
+					<real>-51.3359375</real>
+				</array>
+				<array>
+					<real>-36.62109375</real>
+					<real>-34.04296875</real>
 				</array>
 			</array>
 			<key>polygons</key>
 			<array>
 				<array>
 					<array>
-						<real>186</real>
-						<real>0.0</real>
+						<real>-85.44140625</real>
+						<real>5.51171875</real>
 					</array>
 					<array>
-						<real>186</real>
-						<real>175</real>
+						<real>-98.75</real>
+						<real>11.109375</real>
 					</array>
 					<array>
-						<real>0.0</real>
-						<real>175</real>
+						<real>-96.01171875</real>
+						<real>-26.265625</real>
 					</array>
 					<array>
-						<real>0.0</real>
-						<real>0.0</real>
+						<real>-66.75</real>
+						<real>-21.27734375</real>
+					</array>
+				</array>
+				<array>
+					<array>
+						<real>-66.75</real>
+						<real>-21.27734375</real>
+					</array>
+					<array>
+						<real>-55.4140625</real>
+						<real>-43.0703125</real>
+					</array>
+					<array>
+						<real>-36.62109375</real>
+						<real>-34.04296875</real>
+					</array>
+				</array>
+				<array>
+					<array>
+						<real>-36.62109375</real>
+						<real>-34.04296875</real>
+					</array>
+					<array>
+						<real>-48.76171875</real>
+						<real>18.09765625</real>
+					</array>
+					<array>
+						<real>-74.33203125</real>
+						<real>28.77734375</real>
+					</array>
+					<array>
+						<real>-85.44140625</real>
+						<real>5.51171875</real>
+					</array>
+					<array>
+						<real>-66.75</real>
+						<real>-21.27734375</real>
+					</array>
+				</array>
+				<array>
+					<array>
+						<real>-26.48046875</real>
+						<real>-51.3359375</real>
+					</array>
+					<array>
+						<real>-28.2578125</real>
+						<real>-68.046875</real>
+					</array>
+					<array>
+						<real>-11.17578125</real>
+						<real>-61.00390625</real>
+					</array>
+				</array>
+				<array>
+					<array>
+						<real>83.20703125</real>
+						<real>-17.6953125</real>
+					</array>
+					<array>
+						<real>94.5</real>
+						<real>-8.109375</real>
+					</array>
+					<array>
+						<real>83.859375</real>
+						<real>3.3203125</real>
+					</array>
+				</array>
+				<array>
+					<array>
+						<real>83.859375</real>
+						<real>3.3203125</real>
+					</array>
+					<array>
+						<real>84.16796875</real>
+						<real>15.5</real>
+					</array>
+					<array>
+						<real>56.34375</real>
+						<real>58.7421875</real>
+					</array>
+					<array>
+						<real>10.8828125</real>
+						<real>65.890625</real>
+					</array>
+					<array>
+						<real>-21.0078125</real>
+						<real>57.2109375</real>
+					</array>
+					<array>
+						<real>-48.76171875</real>
+						<real>18.09765625</real>
+					</array>
+					<array>
+						<real>-36.62109375</real>
+						<real>-34.04296875</real>
+					</array>
+					<array>
+						<real>-26.48046875</real>
+						<real>-51.3359375</real>
+					</array>
+					<array>
+						<real>-11.17578125</real>
+						<real>-61.00390625</real>
+					</array>
+					<array>
+						<real>34.92578125</real>
+						<real>-67.94921875</real>
+					</array>
+					<array>
+						<real>73.12109375</real>
+						<real>-43.03125</real>
+					</array>
+					<array>
+						<real>83.20703125</real>
+						<real>-17.6953125</real>
 					</array>
 				</array>
 			</array>
@@ -168,7 +568,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>use/f_reverse_big1.png</string>
+					<string></string>
 				</array>
 			</dict>
 			<dict>
@@ -253,19 +653,19 @@
 				<integer>12</integer>
 			</dict>
 			<key>chainedSequenceId</key>
-			<integer>-1</integer>
+			<integer>0</integer>
 			<key>length</key>
-			<real>10</real>
+			<real>1</real>
 			<key>name</key>
 			<string>Default Timeline</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>0.0</real>
+			<real>0.23333333432674408</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>
-			<real>128</real>
+			<real>349.233154296875</real>
 			<key>sequenceId</key>
 			<integer>0</integer>
 			<key>soundChannel</key>

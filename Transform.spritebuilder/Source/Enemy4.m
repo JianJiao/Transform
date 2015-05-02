@@ -10,7 +10,7 @@
 
 @implementation Enemy4
 #define ARC4RANDOM_MAX      0x100000000
-static const CGFloat range = 275.f;
+static const CGFloat range = 280.f;
 static const CGFloat start = 288.f;
 
 

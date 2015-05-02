@@ -9,5 +9,6 @@
 #import "Enemy.h"
 
 @interface Enemy2 : Enemy
+- (void) setupRandomPosition;
 
 @end

@@ -17,11 +17,12 @@
 #import "Bonus.h"
 #import "WaterBonus.h"
 #import "Wrapper.h"
-#import "WrapperBird.h"
 #import "GameEnd.h"
 #import "Explosion.h"
 #import "Enemy3.h"
 #import "Enemy4.h"
+#import "Shark.h"
+#import "Heal.h"
 
 static const CGFloat firstEnemyPosition = 280.f;
 static const CGFloat distanceBetweenObstacles = 160.f;
@@ -49,7 +50,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSArray *_bgs, *_bgs2, *_bgs3;
 
     NSTimeInterval _sinceTouch;
-    NSTimeInterval _sinceHit, _sinceLoad, _sinceBig, _sinceLoad2;
+    NSTimeInterval _sinceHit, _sinceLoad, _sinceBig, _sinceLoad2, _sinceTriple;
     
 
     NSMutableArray *_obstacles;
@@ -60,13 +61,18 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     CCButton *_restartButton;
 
     BOOL _gameOver;
+    BOOL _wrapped;
 
     CGFloat _scrollSpeed0, _scrollSpeed1, _scrollSpeed2, _scrollSpeed3, _scrollSpeed4, _scrollSpeed5, _scrollSpeed6;
 
     NSInteger _points;
+    NSInteger _hitCount;
+    NSTimeInterval _sinceLastHit;
+    
     NSInteger _bonusCount;
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_bonusLabel;
+    CCLabelTTF *_tripleKill;
     
     NSString *charPosition;
     
@@ -99,7 +105,15 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _sinceLoad2 = 0.f;
     _sinceBig = -1;
     _sinceTouch = 5;
-  self.userInteractionEnabled = YES;
+    
+    _points = 0;
+    _hitCount = 0;
+    _sinceLastHit = 5.f;
+    _sinceTriple = 5.f;
+    
+    _wrapped = false;
+    
+    self.userInteractionEnabled = YES;
 
     _grounds0 = @[_ground1, _ground2];
     _grounds1 = @[_ground3, _ground4];
@@ -156,16 +170,19 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _missiles = [NSMutableArray array];
     _enemies1 = [NSMutableArray array];
     _enemies3 = [NSMutableArray array];
-    [self spawnNewEnemyWith:enemy1 and:_enemies1];
-    [self spawnNewEnemyWith:enemy1 and:_enemies1];
-    [self spawnNewEnemyWith:enemy1 and:_enemies1];
+//    [self spawnNewEnemyWith:enemy1 and:_enemies1];
+//    [self spawnNewEnemyWith:enemy1 and:_enemies1];
+//    [self spawnNewEnemyWith:enemy1 and:_enemies1];
 
     _enemies2 = [NSMutableArray array];
-    [self spawnNewEnemyWith:enemy2 and:_enemies2];
-    [self spawnNewEnemyWith:enemy2 and:_enemies2];
-    [self spawnNewEnemyWith:enemy2 and:_enemies2];
+//    [self spawnNewEnemyWith:enemy2 and:_enemies2];
+//    [self spawnNewEnemyWith:enemy2 and:_enemies2];
+//    [self spawnNewEnemyWith:enemy2 and:_enemies2];
     
-    
+
+    [self spawnRock];
+    [self spawnEn2];
+    [self spawnSh];
 }
 
 
@@ -227,7 +244,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
           }
       }else{
           // on the right, shoot
-          if(_sinceTouch > 0.6){
+          if(_sinceTouch > 0.4 && (!_wrapped)){
               [self launchMissileWith:touchLocation];
               _sinceTouch = 0.f;
 
@@ -299,16 +316,15 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero WaterBonus:(CCNode *)bonus {
-//    NSLog(@"collision, man!");
     [self tryRemoveWaterBonus: (CCNode*) bonus];
 //    [_hero performSelector:@selector(bigBird) withObject:nil afterDelay:0.f];
-    Wrapper *wrap1 = (Wrapper *) [CCBReader load:@"Wrapper"];
-    wrap1.position = _hero.position;
-    [_physicsNode addChild:wrap1];
+//    Wrapper *wrap1 = (Wrapper *) [CCBReader load:@"Wrapper"];
+//    wrap1.position = _hero.position;
+//    [_physicsNode addChild:wrap1];
     
-    WrapperBird *wrapbird = (WrapperBird *) [CCBReader load:@"WrapperBird"];
-    wrapbird.position = _hero.position;
-    [_physicsNode addChild:wrapbird];
+//    WrapperBird *wrapbird = (WrapperBird *) [CCBReader load:@"WrapperBird"];
+//    wrapbird.position = _hero.position;
+//    [_physicsNode addChild:wrapbird];
     
     
     _wrap = (Wrapper *) [CCBReader load:@"Wrapper"];
@@ -316,6 +332,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [_physicsNode addChild:_wrap];
     
     _sinceBig = 0.0;
+    _wrapped = true;
     
     _hero.visible = false;
 
@@ -402,7 +419,6 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         waterCount=0;
     }
 
-
     return YES;
 }
 
@@ -412,6 +428,13 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     wb.position = position;
     wb.zOrder = DrawingOrderPipes;
     [_physicsNode addChild:wb];
+}
+
+-(void) spawnHealWithPositin:(CGPoint) position{
+    Heal *heal = (Heal *) [CCBReader load:@"Heal"];
+    heal.position = position;
+    heal.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:heal];
 }
 
 
@@ -533,14 +556,14 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     return YES;
 }
 
-- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero goal:(CCNode *)goal {
-  [goal removeFromParent];
-
-  _points++;
-  _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
-
-  return YES;
-}
+//- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero goal:(CCNode *)goal {
+//  [goal removeFromParent];
+//
+//  _points++;
+//  _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
+//
+//  return YES;
+//}
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair barrier:(CCNode *)barrier wildcard:(CCNode *)anything {
@@ -639,7 +662,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         [objToRemove removeFromParent];
         [objs removeObject:objToRemove];
         // for each removed obstacle, add a new one
-        [self spawnNewEnemyWith: enemyType and: objs];
+//        [self spawnNewEnemyWith: enemyType and: objs];
     }
 }
 
@@ -681,6 +704,45 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     
 }
 
+- (void) spawnEn1{
+    Enemy1 *en = (Enemy1 *) [CCBReader load:@"Enemy1"];
+    float anchorX = _hero.position.x + 300;
+    en.position = ccp(anchorX, 0);
+    [en setupRandomPosition];
+    
+    en.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:en];
+    
+    [_enemies1 addObject:en];  // _obstacles is a collection
+    
+}
+
+- (void) spawnSh{
+    Shark *en = (Shark *) [CCBReader load:@"Shark"];
+    float anchorX = _hero.position.x + 300;
+    en.position = ccp(anchorX, 0);
+    [en setupRandomPosition];
+    
+    en.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:en];
+    
+    [_enemies1 addObject:en];  // _obstacles is a collection
+    
+}
+
+- (void) spawnEn2{
+    Enemy2 *en = (Enemy2 *) [CCBReader load:@"Enemy2"];
+    float anchorX = _hero.position.x + 300;
+    en.position = ccp(anchorX, 0);
+    [en setupRandomPosition];
+    
+    en.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:en];
+    
+    [_enemies2 addObject:en];  // _obstacles is a collection
+    
+}
+
 
 
 
@@ -688,7 +750,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 #pragma mark - Update
 
 - (void)update:(CCTime)delta {
-    
+
     
     // clamp velocity
     if([charPosition isEqualToString:atUpper] || [charPosition isEqualToString:atRoof]){
@@ -713,12 +775,23 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         _sinceHit += delta;
         _sinceLoad +=delta;
         _sinceLoad2 +=delta;
+        _sinceLastHit +=delta;
+        _sinceTriple += delta;
+        
+        if(_sinceTriple > 1){
+            _tripleKill.visible = false;
+        }
+        
+        
         if(_sinceBig>=0){
             _sinceBig +=delta;
         }
         if(_sinceLoad >= 2.0f){
             [self spawnRock];
             [self spawnEn4];
+//            [self spawnEn1];
+            [self spawnSh];
+            [self spawnEn2];
             _sinceLoad = 0.f;
         }
         if(_sinceLoad2 >= 5.0f){
@@ -741,6 +814,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
             [_wrap removeFromParent];
             _sinceBig = -1;
             _hero.visible = true;
+            _wrapped = false;
 
         }
         
@@ -871,6 +945,34 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 // just remove the selected enemy
 - (void) tryRemoveEnemy: (Enemy*) enemy{
+    
+    if(!enemy.removed){
+        if([charPosition isEqualToString:atLower]||[charPosition isEqualToString:atGround]){
+            _points++;
+        }else{
+            _points += 4;
+        }
+        _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
+        
+        if(_sinceLastHit<1.5 ){
+            if(_hitCount>=3 &&(!_wrapped)){
+                NSLog(@"triple kill");
+                _tripleKill.visible = true;
+                _sinceTriple = 0.f;
+                CGPoint pos = enemy.position;
+                [self spawnHealWithPositin:pos];
+                _hitCount =0;
+            }else{
+                _hitCount ++;
+            }
+        }else{
+            _hitCount =1;
+        }
+        _sinceLastHit =0.f;
+        
+    }
+
+    
     NSMutableArray* enemies;
     NSString *theType = enemy.myType;
     if([theType isEqualToString:enemy1]){
@@ -878,16 +980,12 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     }else if([theType isEqualToString:enemy2]){
         enemies = _enemies2;
     }
+    enemy.removed = true;
     [enemy removeFromParent];
     [enemies removeObject:enemy];
-    [self spawnNewEnemyWith:theType and:enemies];
+//    [self spawnNewEnemyWith:theType and:enemies];
     
-    if([charPosition isEqualToString:atLower]||[charPosition isEqualToString:atGround]){
-        _points++;
-    }else{
-        _points += 4;
-    }
-    _scoreLabel.string = [NSString stringWithFormat:@"%d", (int)_points];
+
 
 
 }
