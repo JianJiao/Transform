@@ -38,6 +38,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     Missile *_missile;
     Wrapper *_wrap;
     
+    CCSprite*  _lifeIcon;
+    
     CCPhysicsNode *_physicsNode;
     CCNode* _movingNode, *_movingNode2, *_movingNode3;
 
@@ -50,7 +52,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSArray *_bgs, *_bgs2, *_bgs3;
 
     NSTimeInterval _sinceTouch;
-    NSTimeInterval _sinceHit, _sinceLoad, _sinceBig, _sinceLoad2, _sinceTriple;
+    NSTimeInterval _sinceHit, _sinceLoad, _sinceBig, _sinceLoad2, _sinceTriple, _sinceNomatch;
     
 
     NSMutableArray *_obstacles;
@@ -70,9 +72,11 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     NSTimeInterval _sinceLastHit;
     
     NSInteger _bonusCount;
+    NSInteger _lifeCount;
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_bonusLabel;
     CCLabelTTF *_tripleKill;
+    CCLabelTTF *_lifeLabel;
     
     NSString *charPosition;
     
@@ -105,9 +109,11 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     _sinceLoad2 = 0.f;
     _sinceBig = -1;
     _sinceTouch = 5;
+    _sinceNomatch = 5;
     
     _points = 0;
     _hitCount = 0;
+    _lifeCount = 0;
     _sinceLastHit = 5.f;
     _sinceTriple = 5.f;
     
@@ -183,6 +189,9 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [self spawnRock];
     [self spawnEn2];
     [self spawnSh];
+    [self spawnEn];
+    [self spawnEn2];
+    
 }
 
 
@@ -308,9 +317,20 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero enemy:(CCNode *)enemy {
-//    NSLog(@"game over");
-    [self endGameWithMessage:@"Game Over"];
-    [self gameOver];
+    if(_lifeCount>0){
+        _lifeCount = _lifeCount -1;
+        _lifeLabel.String = [NSString stringWithFormat:@":%d", (int)_lifeCount];
+        
+        CCAnimationManager* animationManager = _lifeIcon.animationManager;
+        [animationManager runAnimationsForSequenceNamed:@"change"];
+        
+        _sinceNomatch = 0.f;
+        _hero.physicsBody.collisionType = @"nomatch";
+        
+    }else{
+        [self endGameWithMessage:@"Game Over"];
+        [self gameOver];
+    }
     return YES;
 }
 
@@ -326,6 +346,8 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //    wrapbird.position = _hero.position;
 //    [_physicsNode addChild:wrapbird];
     
+    CCAnimationManager* animationManager = _lifeIcon.animationManager;
+    [animationManager runAnimationsForSequenceNamed:@"bonus"];
     
     _wrap = (Wrapper *) [CCBReader load:@"Wrapper"];
     _wrap.position = _hero.position;
@@ -342,6 +364,24 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     
     _bonusCount +=1;
     _bonusLabel.String = [NSString stringWithFormat:@":%d", (int)_bonusCount];
+    
+
+    
+    
+    return YES;
+}
+
+
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero Heal:(CCNode *)bonus {
+    [self tryRemoveWaterBonus: (CCNode*) bonus];
+
+    
+    CCAnimationManager* animationManager = _lifeIcon.animationManager;
+    [animationManager runAnimationsForSequenceNamed:@"change"];
+    
+    _lifeCount +=1;
+    _lifeLabel.String = [NSString stringWithFormat:@":%d", (int)_lifeCount];
+
     
     return YES;
 }
@@ -439,9 +479,19 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 
 
 
-- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero rock:(CCNode *)rock {
-    [self endGameWithMessage:@"Game Over"];
-    [self gameOver];
+- (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair hero:(CCNode *)hero rock:(CCNode *)rock{
+    if(_lifeCount>0){
+        _lifeCount = _lifeCount -1;
+        _lifeLabel.String = [NSString stringWithFormat:@":%d", (int)_lifeCount];
+        CCAnimationManager* animationManager = _lifeIcon.animationManager;
+        [animationManager runAnimationsForSequenceNamed:@"change"];
+        _sinceNomatch = 0.f;
+        _hero.physicsBody.collisionType = @"nomatch";
+        
+    }else{
+        [self endGameWithMessage:@"Game Over"];
+        [self gameOver];
+    }
     return YES;
 }
 
@@ -777,6 +827,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         _sinceLoad2 +=delta;
         _sinceLastHit +=delta;
         _sinceTriple += delta;
+        _sinceNomatch +=delta;
         
         if(_sinceTriple > 1){
             _tripleKill.visible = false;
@@ -786,6 +837,10 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         if(_sinceBig>=0){
             _sinceBig +=delta;
         }
+        if(_sinceNomatch>1.5f){
+            _hero.physicsBody.collisionType = @"hero";
+        }
+        
         if(_sinceLoad >= 2.0f){
             [self spawnRock];
             [self spawnEn4];
@@ -1032,7 +1087,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     gameEndPopover.position = ccp(0.5, 0.5);
     gameEndPopover.zOrder = INT_MAX;
     
-    [gameEndPopover setMessage:message score:_points];
+    [gameEndPopover setMessage:message score:_points diamond:_bonusCount];
     
     [self addChild:gameEndPopover];
     

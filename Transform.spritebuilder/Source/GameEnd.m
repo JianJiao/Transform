@@ -11,6 +11,8 @@
 @implementation GameEnd{
     CCLabelTTF *_messageLabel;
     CCLabelTTF *_scoreLabel;
+    CCLabelTTF *_diamondLabel;
+
 }
 
 - (void)newGame {
@@ -23,8 +25,9 @@
     [[CCDirector sharedDirector]replaceScene:controlScene];
 }
 
-- (void)setMessage:(NSString *)message score:(NSInteger)score {
+- (void)setMessage:(NSString *)message score:(NSInteger)score diamond: (NSInteger)diamond{
     _messageLabel.string = message;
     _scoreLabel.string = [NSString stringWithFormat:@"%d", score];
+    _diamondLabel.string = [NSString stringWithFormat:@": %d", diamond];
 }
 @end
