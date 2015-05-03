@@ -16,6 +16,7 @@
 		536CE58D1AF39A73006AF7E1 /* Enemy4.m in Sources */ = {isa = PBXBuildFile; fileRef = 536CE58C1AF39A73006AF7E1 /* Enemy4.m */; };
 		536CE5961AF4AE89006AF7E1 /* Shark.m in Sources */ = {isa = PBXBuildFile; fileRef = 536CE5951AF4AE89006AF7E1 /* Shark.m */; };
 		537E80E81AF4C6B600A4BEA3 /* Heal.m in Sources */ = {isa = PBXBuildFile; fileRef = 537E80E71AF4C6B600A4BEA3 /* Heal.m */; };
+		537E80F41AF53A9C00A4BEA3 /* Rocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 537E80F31AF53A9C00A4BEA3 /* Rocket.m */; };
 		537EB79D1AEF64E200AE2E95 /* Wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 537EB79C1AEF64E200AE2E95 /* Wrapper.m */; };
 		538035681ACA3CA700661980 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = 538035671ACA3CA700661980 /* Enemy.m */; };
 		5380356E1ACA454700661980 /* Enemy1.m in Sources */ = {isa = PBXBuildFile; fileRef = 5380356D1ACA454700661980 /* Enemy1.m */; };
@@ -108,6 +109,8 @@
 		536CE5951AF4AE89006AF7E1 /* Shark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Shark.m; path = Source/Shark.m; sourceTree = "<group>"; };
 		537E80E61AF4C6B600A4BEA3 /* Heal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Heal.h; path = Source/Heal.h; sourceTree = "<group>"; };
 		537E80E71AF4C6B600A4BEA3 /* Heal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Heal.m; path = Source/Heal.m; sourceTree = "<group>"; };
+		537E80F21AF53A9C00A4BEA3 /* Rocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rocket.h; path = Source/Rocket.h; sourceTree = "<group>"; };
+		537E80F31AF53A9C00A4BEA3 /* Rocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rocket.m; path = Source/Rocket.m; sourceTree = "<group>"; };
 		537EB79B1AEF64E200AE2E95 /* Wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Wrapper.h; path = Source/Wrapper.h; sourceTree = "<group>"; };
 		537EB79C1AEF64E200AE2E95 /* Wrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Wrapper.m; path = Source/Wrapper.m; sourceTree = "<group>"; };
 		538035661ACA3CA700661980 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enemy.h; path = Source/Enemy.h; sourceTree = "<group>"; };
@@ -243,6 +246,8 @@
 				536CE5951AF4AE89006AF7E1 /* Shark.m */,
 				537E80E61AF4C6B600A4BEA3 /* Heal.h */,
 				537E80E71AF4C6B600A4BEA3 /* Heal.m */,
+				537E80F21AF53A9C00A4BEA3 /* Rocket.h */,
+				537E80F31AF53A9C00A4BEA3 /* Rocket.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -462,6 +467,7 @@
 				538035681ACA3CA700661980 /* Enemy.m in Sources */,
 				B737893F1807617C0076A88C /* AppDelegate.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
+				537E80F41AF53A9C00A4BEA3 /* Rocket.m in Sources */,
 				536062991AE720BE00B5A3AA /* SkyBonus.m in Sources */,
 				539481BC1AC7B1F800E2654B /* Missile.m in Sources */,
 				5305757C1AF0AAB200805087 /* ControlScene.m in Sources */,

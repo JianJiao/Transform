@@ -185,13 +185,13 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
 //    [self spawnNewEnemyWith:enemy2 and:_enemies2];
 //    [self spawnNewEnemyWith:enemy2 and:_enemies2];
     
-
+    [self spawnRocket];
     [self spawnRock];
     [self spawnEn2];
     [self spawnSh];
     [self spawnEn];
     [self spawnEn2];
-    
+    [self spawnRocket];
 }
 
 
@@ -729,6 +729,16 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
     [_physicsNode addChild:rock];
 }
 
+#pragma mark - spawnRocket
+- (void) spawnRocket{
+    Rock *rock = (Rock *) [CCBReader load:@"Rocket"];
+    float anchorX = _hero.position.x + 300;
+    rock.position = ccp(anchorX, 0);
+    [rock setupRandomPosition];
+    rock.zOrder = DrawingOrderPipes;
+    [_physicsNode addChild:rock];
+}
+
 
 - (void) spawnEn{
     Enemy3 *en = (Enemy3 *) [CCBReader load:@"Enemy3"];
@@ -843,6 +853,7 @@ typedef NS_ENUM (NSInteger, DrawingOrder) {
         
         if(_sinceLoad >= 2.0f){
             [self spawnRock];
+            [self spawnRocket];
             [self spawnEn4];
 //            [self spawnEn1];
             [self spawnSh];
