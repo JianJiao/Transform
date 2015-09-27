@@ -37,9 +37,9 @@ Designed for iphone 6
 Infinite side scroller with shooting and transformation
 
 * Control your hero
-    •  Fly in the air or swim under the water 
-    •  Transform into different forms
-    •  Dodge & destroy enemies/Rocks
+    * Fly in the air or swim under the water 
+    * Transform into different forms
+    * Dodge & destroy enemies/rocks
 
 * Designed for iphone 6
 * Used: 
@@ -52,35 +52,40 @@ Infinite side scroller with shooting and transformation
 ## Challenges
 
 * Infinite Horizontal Scrolling with Parallax
-    •  Add sprites as children to container or physics nodes
-    •  Constantly move container & physics nodes backwards •  Give container and physics nodes different velocity
+    * Add sprites as children to container or physics nodes
+    * Constantly move container & physics nodes backwards 
+    * Give container and physics nodes different velocity
 
 * Management of Different Objects
-    •  Create inheritance hierarchy of classes
-    •  Spawn enemies in a fixed-,me/ fixed-distance manner •  Add off-screen invisible barrier to remove objects
 
-* PosiCon-based transformaCon and reacCon
-    •  Add invisible sensors to separate the game scene
-    •  Set corresponding flags based on collision and posi,on •  Load different ,melines based on posi,on flags
+    * Create inheritance hierarchy of classes
+    * Spawn enemies in a fixed-time/ fixed-distance manner 
+    * Add off-screen invisible barrier to remove objects
+
+* Position-based transformation and reaction
+
+    * Add invisible sensors to separate the game scene
+    * Set corresponding flags based on collision and posi,on
+    * Load different ,melines based on posi,on flags
 
 
 <a id="notableFeatures"></a>
 ## Notable Features
 
 * Transformation Animation
-    •  Single hero, different forms
-    •  Transform into human, fish, bird and angel
+    * Single hero, different forms
+    * Transform into human, fish, bird and angel
 
 
 * Dive into the Ocean, Fly in the Sky
-    •  Jump between the ocean and the sky
-    •  Experience different gravi,es, in different forms
+    * Jump between the ocean and the sky
+    * Experience different gravi,es, in different forms
 
 * Get more Bonus TransformaCons
-    •  Destroy enemies and unlock bonuses
-    •  Get more power and new transforma,ons from the
+    * Destroy enemies and unlock bonuses
+    * Get more power and new transforma,ons from the
     bonuses
-    •  More surprises as you go!
+    * More surprises as you go!
 
 
 
